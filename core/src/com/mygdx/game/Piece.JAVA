@@ -1,0 +1,69 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+public class Piece {
+    private float width;
+    private int positionX;
+    private int positionY;
+    private final Texture texture = new Texture("badlogic.jpg");
+
+    /** Constructor */
+    public Piece(int newPositionX, int newPositionY, float newWidth) {
+        this.positionX = newPositionX;
+        this.positionY = newPositionY;
+        this.width = newWidth;
+    }
+
+    /** method to draw sprite */
+    public void render(SpriteBatch spriteBatch){
+        spriteBatch.begin();
+        spriteBatch.draw(this.texture, this.positionX * this.width, this.positionY * this.width);
+        spriteBatch.end();
+    }
+
+    public void dispose() {
+        texture.dispose();
+    }
+
+    /** Getters and setter of atributtes X and Y*/
+    public void setPositionX(int newPositionX){
+        this.positionX = newPositionX;
+    }
+
+    public int getPositionX(){
+        return this.positionX;
+    }
+
+    public void setPositionY(int newPositionY) {
+        this.positionY = newPositionY;
+    }
+
+    public int getPositionY(){
+        return this.positionY;
+    }
+
+    /**Setter of atributte width*/
+    public void setWidth(float newWidth){
+        this.width = newWidth;
+    }
+
+    /**
+    Methods increment and decrement of X and Y*/
+    public void incrementPositionX(){
+        this.setPositionX(this.positionX++);
+    }
+
+    public void decrementPositionX(){
+        this.setPositionX(this.positionX--);
+    }
+
+    public void incrementPositioY(){
+        this.setPositionX(this.positionY++);
+    }
+
+    public void decrementPositionY(){
+        this.setPositionX(this.positionY--);
+    }
+}
