@@ -20,6 +20,12 @@ Los puestos de trabajo rotan cada semana y van por orden alfabético empezando p
 </ul>
 Lenguaje dentro del proyecto: Ingles
 
+## Reunión 26/01/2021
+Reorganizamos otra vez los grupos para ser 2 grupos de 3, dejando así el administrador y el arquitecto en un mismo grupo. Apuntamos las posibles mejorías de la clase piece según las indicaciones del profesor y decidimos el diseño de la caja de comentarios para el estado y el comportamiento de las clases. 
+
+Arquitecto(Sergio) hace el UML de la clase piece y lo añadimos al UML que hicimos en la primera reunión. 
+
+Administrador(Alberto) hace push tanto de la clase piece como del UML al repositorio principal. 
 
 ## Reunión 25/01/2021
 Los analizadores(Raul,Paula) debaten que clase es la mejor, se decide elegir la clase de Basilio aportando unos comentarios.
