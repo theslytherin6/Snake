@@ -27,6 +27,27 @@ Arquitecto(Sergio) hace el UML de la clase piece y lo añadimos al UML que hicim
 
 Administrador(Alberto) hace push tanto de la clase piece como del UML al repositorio principal. 
 
+## Reunión 29/1/2021
+
+-revisar el codigo de la clase piece y arreglar fallos como nombres de variables y parametros
+-escribimos el metodo iscolliding()
+-repasar la clase snake y planteamos mejor los metodos para empezar a programarlos  
+
+## Reunión 28/1/01/2021
+
+-Se añaden los métodos getWitdh() y getHeight() de la libreria libgdx para obtener el ancho y alto de la pantalla
+-Se pasa a proceso draw() (escalable) para realizarse.
+-Se crea la clase Snake y se añade mediante comentarios las funciones de los métodos de ésta.
+
+## Reunión 27/01/2021
+
+-Se mejoró la verbosidad del código
+-se quitó el final a texture
+-se añadió texture al constructor de la clase piece
+-Se mejoró los comentarios en el código
+-posicion x e y se pusieron como referenciales y no como pixeles
+-Se plantea como implementar la clase collaider
+
 ## Reunión 25/01/2021
 Los analizadores(Raul,Paula) debaten que clase es la mejor, se decide elegir la clase de Basilio aportando unos comentarios.
 
