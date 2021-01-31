@@ -3,7 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Piece {
+public class Piece 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ public class Piece {
     }
 
     /**
-     *Method that return a complete cloning of her self
+     * Method that return a complete cloning of her self
      * @return a instance of the clone piece
      */
     public Piece clone(){
@@ -144,4 +144,3 @@ public class Piece {
     }
 
 }
-
