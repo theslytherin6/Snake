@@ -31,7 +31,13 @@ public class Piece {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // BUILDER
+    /**
+     * Builder of piece
+     * @param width width of piece
+     * @param newRelativeRow Y relative position that piece it's going to have
+     * @param newRelativeCol X relative position that piece it's going to have
+     * @param newImage route of the sprite to loading
+     */
     public Piece(float width, int newRelativeRow, int newRelativeCol, String newImage) {
         this.width = width;
         this.relativeRow = newRelativeRow;
@@ -130,8 +136,8 @@ public class Piece {
     }
 
     /**
-     *
-     * @return
+     *Method that return a complete cloning of her self
+     * @return a instance of the clone piece
      */
     public Piece clone(){
         return new Piece(this.width, this.relativeRow, this.relativeCol, this.image);

@@ -44,50 +44,58 @@ public class Snake {
         PieceList.add(piece);
     }
 
+    /**
+     * Method to change the direction of the Snake
+     * @param movement one of the following directions (UP,DOWN,LEFT,RIGHT)
+     */
     public void changeMovement(String movement) {
 
         this.lastMovement = movement;
 
     }
 
+    /**
+     * Method to move the Snake
+     * todo trello: metodo mover clase Snake
+     */
     public void move() {
-        /**
-         * todo El metodo es muy largo, hay que separar en módulos su comportamiento.
-         * La responsabilidad de crecer es de Snake [actualmente contando cuantas veces se ha movido para saber cuando crecer(4)]
-         * Tenemos que crear un método queeeeeeeeeeee..... devuelva si is the moment or not de crecer y actuar en consecuencia, eliminando o no la ultima pieza.
-         * Antes de cada movimiento tenemos que comprobar en el actual metodo canMove si puedo moverme, actualmente el único requisito es no estar outOfRange.
-         * Para eso la serpiente debe conocer las características concretas del tablero.
-         */
-        PieceList.removeLast();
-        Piece clonedFirstPiece = PieceList.getFirst().clone();
+        this.PieceList.removeLast();
+        Piece clonedFirstPiece = this.PieceList.getFirst().clone();
+        this.movePiece(clonedFirstPiece);
+        this.PieceList.addFirst(clonedFirstPiece);
+    }
+
+    /**
+     * Method to move a specific piece
+     * @param pieceToMove piece that it's going to move
+     */
+    private void movePiece(Piece pieceToMove){
         switch (lastMovement) {
             case Snake.UP:
-                clonedFirstPiece.decrementRow();
+                pieceToMove.decrementRow();
                 break;
             case Snake.DOWN:
-                clonedFirstPiece.incrementRow();
+                pieceToMove.incrementRow();
                 break;
             case Snake.LEFT:
-                clonedFirstPiece.decrementCol();
+                pieceToMove.decrementCol();
                 break;
             case Snake.RIGHT:
-                clonedFirstPiece.incrementCol();
+                pieceToMove.incrementCol();
                 break;
             default:
                 throw new IllegalArgumentException("BUM!");
         }
-        PieceList.addFirst(clonedFirstPiece);
     }
-
     public boolean canMove() {
 
         // PREGUNTAR AL METODO COLIDER DE LA CLASE PIEZA SI EN LA SIGUIENTE POSICIÓN (A PARTIR DE LA 5ª FICHA) HAY OTRA PIEZA O UN BORDE DEL TABLERO
         // SI NO HAY NADA RETORNAR TRUE
         // SI HAY UNA PIEZA O EL BORDE DEL TABLERO RETORNAR FALSE
 
-        for (int i = PieceList.get(4); i < PieceList.size(); i++) {
+       /* for (int i = PieceList.get(4); i < PieceList.size(); i++) {
             if (PieceList.getFirst().isColliding(i)) ;
-        }
+        }*/
 
         return true;
     }
