@@ -20,11 +20,15 @@ Los puestos de trabajo rotan cada semana y van por orden alfabético empezando p
 </ul>
 Lenguaje dentro del proyecto: Ingles
 
+## Reunión 31/1/2021
+
+Entender el codigo de la clase snake, arreglar algunos fallos y modular el metodo movement
+
 ## Reunión 29/1/2021
 
--revisar el codigo de la clase piece y arreglar fallos como nombres de variables y parametros
--escribimos el metodo iscolliding()
--repasar la clase snake y planteamos mejor los metodos para empezar a programarlos  
+-Revisar el codigo de la clase piece y arreglar fallos como nombres de variables y parametros.
+-Escribimos el metodo iscolliding()
+-Repasar la clase snake y planteamos mejor los metodos para empezar a programarlos  
 
 ## Reunión 28/1/01/2021
 
@@ -48,15 +52,14 @@ Arquitecto(Sergio) hace el UML de la clase piece y lo añadimos al UML que hicim
 
 Administrador(Alberto) hace push tanto de la clase piece como del UML al repositorio principal. 
 
-
 ## Reunión 25/01/2021
 Los analizadores(Raul,Paula) debaten que clase es la mejor, se decide elegir la clase de Basilio aportando unos comentarios.
 
 ## Reunión 24/01/2021
-Lara termina su clase clase Piece.
+Lara termina su clase Piece.
 
 ## Reunión 22/01/2021
-Basilio termina su la clase Piece.
+Basilio termina su clase Piece.
 
 ## Reunión 20/01/2021
 En esta reunión hemos decidido reorganizar los grupos para mejorar el flujo de trabajo.
