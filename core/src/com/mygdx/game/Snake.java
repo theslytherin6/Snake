@@ -18,11 +18,11 @@ public class Snake {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private LinkedList<Piece> PieceList;
-    private String lastMovement;
-    public static final String UP = "UP";
-    public static final String DOWN = "DOWN";
-    public static final String LEFT = "LEFT";
-    public static final String RIGHT = "RIGHT";
+    private int lastMovement;
+    public static final int UP = 1;
+    public static final int DOWN = -1;
+    public static final int LEFT = 2;
+    public static final int RIGHT = -2;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,16 +40,19 @@ public class Snake {
         PieceList = new LinkedList();
     }
 
-    public void grow(Piece piece) {
-        PieceList.add(piece);
+    public void grow() {
+        Piece clonedFirstPiece = this.PieceList.getFirst().clone();
+        this.movePiece(clonedFirstPiece);
+        this.PieceList.addFirst(clonedFirstPiece);
     }
 
     /**
      * Method to change the direction of the Snake
      * @param movement one of the following directions (UP,DOWN,LEFT,RIGHT)
      */
-    public void changeMovement(String movement) {
+    public void changeMovement(int movement) {
 
+        if(lastMovement + movement == 0);
         this.lastMovement = movement;
 
     }
@@ -60,9 +63,7 @@ public class Snake {
      */
     public void move() {
         this.PieceList.removeLast();
-        Piece clonedFirstPiece = this.PieceList.getFirst().clone();
-        this.movePiece(clonedFirstPiece);
-        this.PieceList.addFirst(clonedFirstPiece);
+        this.grow();
     }
 
     /**
@@ -87,11 +88,13 @@ public class Snake {
                 throw new IllegalArgumentException("BUM!");
         }
     }
-    public boolean canMove() {
 
-        // PREGUNTAR AL METODO COLIDER DE LA CLASE PIEZA SI EN LA SIGUIENTE POSICIÓN (A PARTIR DE LA 5ª FICHA) HAY OTRA PIEZA O UN BORDE DEL TABLERO
-        // SI NO HAY NADA RETORNAR TRUE
-        // SI HAY UNA PIEZA O EL BORDE DEL TABLERO RETORNAR FALSE
+    /**
+     * Method to check if a piece can move
+     * @return true if the piece can move
+     */
+
+    public boolean canMove() {
 
         //creamos una pieza clonada de la primera pieza y la movemos en la ultima direccion y recorremos el linked list para
         //saber si colisionaria con alguna de las piezas de snake y controlar la pieza que se va a borrar
@@ -102,6 +105,16 @@ public class Snake {
             if (c.isColliding(clonedFirstPiece)) return false;
         }
         return true;
+    }
+
+    /**
+     * Method to dispose the piece list from snake
+     */
+    public void dispose(){
+
+        for (Piece piece : PieceList){
+            piece.dispose();
+        }
     }
 
 }
