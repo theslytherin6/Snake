@@ -93,10 +93,14 @@ public class Snake {
         // SI NO HAY NADA RETORNAR TRUE
         // SI HAY UNA PIEZA O EL BORDE DEL TABLERO RETORNAR FALSE
 
-       /* for (int i = PieceList.get(4); i < PieceList.size(); i++) {
-            if (PieceList.getFirst().isColliding(i)) ;
-        }*/
+        //creamos una pieza clonada de la primera pieza y la movemos en la ultima direccion y recorremos el linked list para
+        //saber si colisionaria con alguna de las piezas de snake y controlar la pieza que se va a borrar
 
+        Piece clonedFirstPiece = this.PieceList.getFirst().clone();
+        this.movePiece(clonedFirstPiece);
+        for (Piece c: PieceList) {
+            if (c.isColliding(clonedFirstPiece)) return false;
+        }
         return true;
     }
 
