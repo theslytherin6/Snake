@@ -85,7 +85,7 @@ public class Snake {
                 pieceToMove.incrementCol();
                 break;
             default:
-                throw new IllegalArgumentException("BUM!");
+                throw new IllegalArgumentException("BUM!");  // Quitar la excepción y indicar que debe repetirse el último movimiento si no se elige otro distinto
         }
     }
 
