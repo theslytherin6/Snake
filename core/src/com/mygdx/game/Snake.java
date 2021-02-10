@@ -52,8 +52,7 @@ public class Snake {
      */
     public void changeMovement(int movement) {
 
-        if(lastMovement + movement == 0);
-        this.lastMovement = movement;
+        if(lastMovement + movement == 0) this.lastMovement = movement;
 
     }
 
