@@ -52,8 +52,16 @@ public class Snake {
      */
     public void changeMovement(int movement) {
 
-        if(lastMovement + movement != 0) this.lastMovement = movement;
+        if(!this.movementIsOpposite(movement)) this.lastMovement = movement;
 
+    }
+    
+    // todo Comentar metodo movementIsOpposite
+    
+    private boolean movementIsOpposite(int movement){
+    
+        return this.lastMovement + movement != 0;
+        
     }
 
     /**
