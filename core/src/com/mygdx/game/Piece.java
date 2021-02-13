@@ -3,7 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Piece{
+public class Piece {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,15 +33,16 @@ public class Piece{
 
     /**
      * Builder of piece
-     * @param width width of piece
+     *
+     * @param width          width of piece
      * @param newRelativeRow Y relative position that piece it's going to have
      * @param newRelativeCol X relative position that piece it's going to have
-     * @param newImage route of the sprite to loading
+     * @param newImage       route of the sprite to loading
      */
-    public Piece(float width, int newRelativeRow, int newRelativeCol, String newImage) {
-        this.width = width;
-        this.relativeRow = newRelativeRow;
+    public Piece(int newRelativeCol, int newRelativeRow, float width, String newImage) {
         this.relativeCol = newRelativeCol;
+        this.relativeRow = newRelativeRow;
+        this.width = width;
         this.texture = new Texture(newImage);
         this.image = newImage;
     }
@@ -62,8 +63,8 @@ public class Piece{
      *
      * @return absolute position in pixel of the abscissa X
      */
-    private float absoluteCol(){
-        return this.relativeCol*this.width;
+    private float absoluteCol() {
+        return this.relativeCol * this.width;
     }
 
     /**
@@ -71,15 +72,15 @@ public class Piece{
      *
      * @return absolute position in pixel of the abscissa Y
      */
-    private float absoluteRow(){
-        return this.relativeRow*this.width;
+    private float absoluteRow() {
+        return this.relativeRow * this.width;
     }
 
     /**
      * Method to dispose texture from graffic buffer
      */
     public void dispose() {
-        texture.dispose();
+        if (this.texture != null) texture.dispose();
     }
 
     /**
@@ -137,10 +138,11 @@ public class Piece{
 
     /**
      * Method that return a complete cloning of her self
+     *
      * @return a instance of the clone piece
      */
-    public Piece clone(){
-        return new Piece(this.width, this.relativeRow, this.relativeCol, this.image);
+    public Piece clone() {
+        return new Piece(this.relativeCol, this.relativeRow, this.width, this.image);
     }
 
 }
