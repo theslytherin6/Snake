@@ -11,14 +11,14 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
     private Controller mainController;
-    private float smallerDimension;
+    private int smallerDimension;
 
     @Override
     public void create() {
-        //batch = new SpriteBatch();
+        batch = new SpriteBatch();
         //img = new Texture("badlogic.jpg");
         this.getSmallerDisplaySize();
-        mainController = Controller.create(getCellDimesions());
+        mainController = Controller.create(getCellDimesions(), this.smallerDimension, this.smallerDimension);
     }
 
     private void getSmallerDisplaySize() {
@@ -28,8 +28,8 @@ public class MyGdxGame extends ApplicationAdapter {
         this.smallerDimension = Math.min(ScreenWidth, ScreenHeight);
     }
 
-    private float getCellDimesions() {
-        return (float) (this.smallerDimension * 0.9) / 20;
+    private int getCellDimesions() {
+        return (int) (this.smallerDimension * 0.9 / 20);
     }
 
     @Override

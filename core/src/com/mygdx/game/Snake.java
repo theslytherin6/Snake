@@ -39,7 +39,8 @@ public class Snake {
     public Snake(int initRelativeCol, int initRelativeRow, int initDirection, float width) {
         pieceList = new LinkedList<>();
         Piece piece = new Piece(initRelativeCol, initRelativeRow, width, this.IMAGE);
-        initDirection = this.lastMovement;
+        this.pieceList.add(piece);
+        this.lastMovement = initDirection;
     }
 
     /**
