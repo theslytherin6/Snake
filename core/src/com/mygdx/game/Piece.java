@@ -4,105 +4,145 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Piece {
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////
+////// STATE
+//////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     private float width;
-    private int positionX;
-    private int positionY;
-    private final Texture texture = new Texture("badlogic.jpg");
+    private int relativeCol;
+    private int relativeRow;
+    private Texture texture;
+    private String image;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////
+////// BEHAVIOR//CONDUCT
+//////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Contructor for a Piece
-     * @param newPositionX Position X for the new piece
-     * @param newPositionY Posicion Y for the new piece
-     * @param newWidth Width for the new piece
+     * Builder of piece
+     *
+     * @param width          width of piece
+     * @param newRelativeRow Y relative position that piece it's going to have
+     * @param newRelativeCol X relative position that piece it's going to have
+     * @param newImage       route of the sprite to loading
      */
-    public Piece(int newPositionX, int newPositionY, float newWidth) {
-        this.positionX = newPositionX;
-        this.positionY = newPositionY;
-        this.width = newWidth;
+    public Piece(int newRelativeCol, int newRelativeRow, float width, String newImage) {
+        this.relativeCol = newRelativeCol;
+        this.relativeRow = newRelativeRow;
+        this.width = width;
+        this.texture = new Texture(newImage);
+        this.image = newImage;
     }
 
     /**
-     * Method for draw the sprite texture
+     * Method to draw the sprite texture
+     *
      * @param spriteBatch Platform to draw textures
      */
-    public void render(SpriteBatch spriteBatch){
+    public void render(SpriteBatch spriteBatch) {
         spriteBatch.begin();
-        spriteBatch.draw(this.texture, this.positionX * this.width, this.positionY * this.width);
+        spriteBatch.draw(this.texture, this.absoluteCol(), this.absoluteRow(), this.width, this.width);
         spriteBatch.end();
+    }
+
+    /**
+     * Method to get the absolute position in pixel of the abscissa X
+     *
+     * @return absolute position in pixel of the abscissa X
+     */
+    private float absoluteCol() {
+        return this.relativeCol * this.width;
+    }
+
+    /**
+     * Method to get the absolute position in pixel of the abscissa Y
+     *
+     * @return absolute position in pixel of the abscissa Y
+     */
+    private float absoluteRow() {
+        return this.relativeRow * this.width;
     }
 
     /**
      * Method to dispose texture from graffic buffer
      */
     public void dispose() {
-        texture.dispose();
-    }
-
-    /**
-     * Method setter for the atrbute position X
-     * @param newPositionX new position X for the piece
-     */
-    public void setPositionX(int newPositionX){
-        this.positionX = newPositionX;
+        if (this.texture != null) texture.dispose();
     }
 
     /**
      * Method getter for the atribute position X
+     *
      * @return Acual position from the piece
      */
-    public int getPositionX(){
-        return this.positionX;
-    }
-
-    /**
-     * Method setter for the atrbute position Y
-     * @param newPositionY new position Y for the piece
-     */
-    public void setPositionY(int newPositionY) {
-        this.positionY = newPositionY;
+    public int getRelativeCol() {
+        return this.relativeCol;
     }
 
     /**
      * Method getter for the atribute position Y
+     *
      * @return Acual position Y from the piece
      */
-    public int getPositionY(){
-        return this.positionY;
-    }
-
-    /**
-     * Method setter for the atrbute width
-     * @param newWidth new width for the piece
-     */
-    public void setWidth(float newWidth){
-        this.width = newWidth;
+    public int getRelativeRow() {
+        return this.relativeRow;
     }
 
     /**
      * Rapid Method to increment X position
      */
-    public void incrementPositionX(){
-        this.setPositionX(this.positionX++);
+    public void incrementCol() {
+        this.relativeCol++;
     }
 
     /**
      * Rapid Method to decrement X position
      */
-    public void decrementPositionX(){
-        this.setPositionX(this.positionX--);
+    public void decrementCol() {
+        this.relativeCol--;
     }
 
     /**
      * Rapid Method to increment Y position
      */
-    public void incrementPositioY(){
-        this.setPositionX(this.positionY++);
+    public void incrementRow() {
+        this.relativeRow++;
     }
 
     /**
      * Rapid Method to decrement Y position
      */
-    public void decrementPositionY(){
-        this.setPositionX(this.positionY--);
+    public void decrementRow() {
+        this.relativeRow--;
     }
+
+    /**
+     * Method to initialize the colider
+     */
+    public boolean isColliding(Piece piece) {
+        return this.relativeRow == piece.getRelativeRow() && this.relativeCol == piece.getRelativeCol();
+    }
+
+    /**
+     * Method that return a complete cloning of her self
+     *
+     * @return a instance of the clone piece
+     */
+    public Piece clone() {
+        return new Piece(this.relativeCol, this.relativeRow, this.width, this.image);
+    }
+
 }
