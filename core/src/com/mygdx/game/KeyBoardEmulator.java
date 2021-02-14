@@ -1,10 +1,6 @@
 package com.mygdx.game;
 
 public class KeyBoardEmulator {
-    private boolean keyUpPressed,
-                    keyDownPressed,
-                    keyLeftPressed,
-                    keyRightPressed;
 
     private int displayWidth,
                 displayHeight,
@@ -13,25 +9,20 @@ public class KeyBoardEmulator {
                 topLimit,
                 botLimit;
 
+    private int moveSelected;
+
     private final float MARGIN_LIMIT = .3f;
 
     public KeyBoardEmulator(int displayWidth, int displayHeight){
         this.displayHeight = displayHeight;
         this.displayWidth = displayWidth;
-        this.keysDefault();
         this.calculateLimits();
         System.out.println("LIMITS");
         System.out.println("T:" + this.topLimit);
         System.out.println("D:" + this.botLimit);
         System.out.println("L:" + this.leftLimit);
         System.out.println("R:" + this.rightLimit);
-    }
-
-    private void keysDefault(){
-        this.keyUpPressed = false;
-        this.keyDownPressed = false;
-        this.keyLeftPressed = false;
-        this.keyRightPressed = false;
+        this.moveSelected = 0;
     }
 
     private void calculateLimits(){
@@ -42,23 +33,22 @@ public class KeyBoardEmulator {
     }
 
     public void emulate(int positionX, int positionY){
-        this.keysDefault();
         this.checkAxisX(positionX);
         this.checkAxisY(positionY);
     }
 
-    private void checkAxisY(int position){
-        if (this.touchOnTopSite(position))
-            this.keyUpPressed = true;
-        if (this.touchOnBotSite(position))
-            this.keyDownPressed = true;
-    }
-
     private void checkAxisX(int position){
         if (this.touchOnLeftSite(position))
-            this.keyLeftPressed = true;
+            this.moveSelected = Snake.LEFT;
         if (this.touchOnRightSite(position))
-            this.keyRightPressed = true;
+            this.moveSelected = Snake.RIGHT;
+    }
+
+    private void checkAxisY(int position){
+        if (this.touchOnTopSite(position))
+            this.moveSelected = Snake.UP;
+        if (this.touchOnBotSite(position))
+            this.moveSelected = Snake.DOWN;
     }
 
     private boolean touchOnTopSite(int position){
@@ -76,19 +66,7 @@ public class KeyBoardEmulator {
         return this.rightLimit <= position && position <= this.displayWidth;
     }
 
-    public boolean isKeyUpPressed() {
-        return keyUpPressed;
-    }
-
-    public boolean isKeyDownPressed() {
-        return keyDownPressed;
-    }
-
-    public boolean isKeyLeftPressed() {
-        return keyLeftPressed;
-    }
-
-    public boolean isKeyRightPressed() {
-        return keyRightPressed;
+    public int getMoveSelected(){
+        return this.moveSelected;
     }
 }

@@ -9,17 +9,19 @@ public class Controller {
     private final int INIT_SNAKE_RELATIVE_ROW = 10;
     private final int INIT_SNAKE_RELATIVE_COL = 10;
     private final int INIT_SNAKE_DIRECTION = Snake.RIGHT;
+    private final int FRAMES_TO_SNAKE_MOVES = 60;
     private Snake snake;
     private KeyBoardEmulator keyBoardEmulator;
     private int displayWidth;
     private int displayHeight;
-
+    private int contador;
 
     private Controller(int cellWith, int displayWidth, int displayHeight) {
         this.snake = new Snake(this.INIT_SNAKE_RELATIVE_COL, this.INIT_SNAKE_RELATIVE_ROW, this.INIT_SNAKE_DIRECTION, cellWith);
         this.keyBoardEmulator = new KeyBoardEmulator(displayWidth, displayHeight);
         this.displayWidth = displayWidth;
         this.displayHeight = displayHeight;
+        this.contador = 0;
     }
 
     public static Controller create(int cellWith, int displayWidth, int displayHeight) {
@@ -28,20 +30,31 @@ public class Controller {
         return Controller.controller;
     }
 
-    public void render(SpriteBatch spriteBatch) {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+    public void loop(SpriteBatch spriteBatch) {
+        this.render(spriteBatch);
+        this.touchHandler();
+        this.snakeHandler();
+    }
+
+    private void render(SpriteBatch spriteBatch) {
+        Gdx.gl.glClearColor(0.5f, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        // todo estas lineas comentadas tienen que descomentarse para que todo funcione
         this.snake.render(spriteBatch);
+    }
+
+    private void touchHandler(){
         boolean screenTouched = Gdx.input.justTouched();
         if (screenTouched){
             keyBoardEmulator.emulate(Gdx.input.getX(), Gdx.input.getY());
-            System.out.println("X: " + Gdx.input.getX() + "\nY: " + Gdx.input.getY());
-            System.out.println("U:" + keyBoardEmulator.isKeyUpPressed());
-            System.out.println("D:" + keyBoardEmulator.isKeyDownPressed());
-            System.out.println("L:" + keyBoardEmulator.isKeyLeftPressed());
-            System.out.println("R:" + keyBoardEmulator.isKeyRightPressed());
-            System.out.println("-------------------------------------");
+            snake.changeMovement(keyBoardEmulator.getMoveSelected());
+        }
+    }
+
+    private void snakeHandler(){
+        contador++;
+        if (contador == FRAMES_TO_SNAKE_MOVES){
+            this.moveSnake();
+            contador = 0;
         }
     }
 

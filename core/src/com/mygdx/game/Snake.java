@@ -47,8 +47,8 @@ public class Snake {
      * Method to move the Snake
      */
     public void move() {
-        this.pieceList.removeLast();
         this.grow();
+        this.pieceList.removeLast();
     }
 
     /**
@@ -90,9 +90,8 @@ public class Snake {
      * @param movement one of the following directions (UP,DOWN,LEFT,RIGHT)
      */
     public void changeMovement(int movement) {
-
-        if (this.isMovementValid(movement)) this.lastMovement = movement;
-
+        if (this.isMovementValid(movement))
+            this.lastMovement = movement;
     }
 
     /**
@@ -102,9 +101,7 @@ public class Snake {
      * @return true if the movement is not opposite
      */
     private boolean isMovementValid(int movement) {
-
         return this.lastMovement + movement != 0;
-
     }
 
     /**
