@@ -5,6 +5,17 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Controller {
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////
+////// STATE
+//////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     private static Controller controller;
     private final int INIT_SNAKE_RELATIVE_ROW = 10;
     private final int INIT_SNAKE_RELATIVE_COL = 10;
@@ -16,52 +27,99 @@ public class Controller {
     private int displayHeight;
     private int contador;
 
-    private Controller(int cellWith, int displayWidth, int displayHeight) {
-        this.snake = new Snake(this.INIT_SNAKE_RELATIVE_COL, this.INIT_SNAKE_RELATIVE_ROW, this.INIT_SNAKE_DIRECTION, cellWith);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////
+////// BEHAVIOR//CONDUCT
+//////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Builder of controller
+     *
+     * @param cellWidth     Width of the cells where Snake would move
+     * @param displayWidth  Width of the display
+     * @param displayHeight Height of the display
+     */
+    private Controller(int cellWidth, int displayWidth, int displayHeight) {
+        this.snake = new Snake(this.INIT_SNAKE_RELATIVE_COL, this.INIT_SNAKE_RELATIVE_ROW, this.INIT_SNAKE_DIRECTION, cellWidth);
         this.keyBoardEmulator = new KeyBoardEmulator(displayWidth, displayHeight);
         this.displayWidth = displayWidth;
         this.displayHeight = displayHeight;
         this.contador = 0;
     }
 
-    public static Controller create(int cellWith, int displayWidth, int displayHeight) {
+    /**
+     * Method to create a Controller
+     *
+     * @param cellWidth     Width of the cells where Snake would move
+     * @param displayWidth  Width of the display
+     * @param displayHeight Height of the display
+     * @return A controller if the there is not other controller
+     */
+    public static Controller create(int cellWidth, int displayWidth, int displayHeight) {
         if (Controller.controller == null)
-            Controller.controller = new Controller(cellWith, displayWidth, displayHeight);
+            Controller.controller = new Controller(cellWidth, displayWidth, displayHeight);
         return Controller.controller;
     }
 
+    /**
+     * Method to manage the objects associated to the controller
+     *
+     * @param spriteBatch Platform to draw textures
+     */
     public void loop(SpriteBatch spriteBatch) {
         this.render(spriteBatch);
         this.touchHandler();
         this.snakeHandler();
     }
 
+    /**
+     * Method to draw the sprite texture and the background
+     *
+     * @param spriteBatch Platform to draw textures
+     */
     private void render(SpriteBatch spriteBatch) {
         Gdx.gl.glClearColor(0.5f, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.snake.render(spriteBatch);
     }
 
-    private void touchHandler(){
+    /**
+     * Method responsible of the touchs on the screen
+     */
+    private void touchHandler() {
         boolean screenTouched = Gdx.input.justTouched();
-        if (screenTouched){
-            keyBoardEmulator.emulate(Gdx.input.getX(), Gdx.input.getY());
-            snake.changeMovement(keyBoardEmulator.getMoveSelected());
+        if (screenTouched) {
+            this.keyBoardEmulator.emulate(Gdx.input.getX(), Gdx.input.getY());
+            this.snake.changeMovement(this.keyBoardEmulator.getMoveSelected());
         }
     }
 
-    private void snakeHandler(){
-        contador++;
-        if (contador == FRAMES_TO_SNAKE_MOVES){
+    /**
+     * Method responsible of the movement of the Snake
+     */
+    private void snakeHandler() {
+        this.contador++;
+        if (this.contador == this.FRAMES_TO_SNAKE_MOVES) {
             this.moveSnake();
-            contador = 0;
+            this.contador = 0;
         }
     }
 
+    /**
+     * Method to move the pieces of the Snake
+     */
     private void moveSnake() {
         this.snake.move();
     }
 
+    /**
+     * Method to dispose the piece list from snake
+     */
     public void dispose() {
         this.snake.dispose();
     }

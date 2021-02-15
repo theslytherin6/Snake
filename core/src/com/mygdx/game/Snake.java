@@ -34,7 +34,14 @@ public class Snake {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // BUILDER
+    /**
+     * Builder of snake
+     *
+     * @param initRelativeCol  X relative position that piece it's going to have
+     * @param initRelativeRow  Y relative position that piece it's going to have
+     * @param initDirection    Initial direction of the Snake to move
+     * @param width            width of piece
+     */
 
     public Snake(int initRelativeCol, int initRelativeRow, int initDirection, float width) {
         pieceList = new LinkedList<>();
@@ -68,10 +75,10 @@ public class Snake {
     private void moveSpecificPiece(Piece pieceToMove) {
         switch (lastMovement) {
             case Snake.UP:
-                pieceToMove.decrementRow();
+                pieceToMove.incrementRow();
                 break;
             case Snake.DOWN:
-                pieceToMove.incrementRow();
+                pieceToMove.decrementRow();
                 break;
             case Snake.LEFT:
                 pieceToMove.decrementCol();
