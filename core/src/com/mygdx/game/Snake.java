@@ -36,8 +36,14 @@ public class Snake {
 
     // BUILDER
 
+    /**
+     * @param initRelativeCol initial relative X position
+     * @param initRelativeRow initial relative Y position
+     * @param initDirection initial snake direction
+     * @param width width for every Piece
+     */
     public Snake(int initRelativeCol, int initRelativeRow, int initDirection, float width) {
-        pieceList = new LinkedList<>();
+        this.pieceList = new LinkedList<>();
         Piece piece = new Piece(initRelativeCol, initRelativeRow, width, this.IMAGE);
         this.pieceList.add(piece);
         this.lastMovement = initDirection;
@@ -62,7 +68,6 @@ public class Snake {
 
     /**
      * Method to move a specific piece
-     *
      * @param pieceToMove piece that it's going to move
      */
     private void moveSpecificPiece(Piece pieceToMove) {
@@ -86,7 +91,6 @@ public class Snake {
 
     /**
      * Method to change the direction of the Snake
-     *
      * @param movement one of the following directions (UP,DOWN,LEFT,RIGHT)
      */
     public void changeMovement(int movement) {
@@ -96,7 +100,6 @@ public class Snake {
 
     /**
      * Method to check if the movement is opposite or not
-     *
      * @param movement
      * @return true if the movement is not opposite
      */
@@ -106,11 +109,10 @@ public class Snake {
 
     /**
      * Method to render the piece list from snake
-     *
      * @param spriteBatch
      */
     public void render(SpriteBatch spriteBatch) {
-        for (Piece piece : pieceList) {
+        for (Piece piece : this.pieceList) {
             piece.render(spriteBatch);
         }
     }
@@ -120,7 +122,7 @@ public class Snake {
      */
     public void dispose() {
 
-        for (Piece piece : pieceList) {
+        for (Piece piece : this.pieceList) {
             piece.dispose();
         }
     }
