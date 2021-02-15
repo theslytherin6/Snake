@@ -33,7 +33,6 @@ public class Piece {
 
     /**
      * Builder of piece
-     *
      * @param width          width of piece
      * @param newRelativeRow Y relative position that piece it's going to have
      * @param newRelativeCol X relative position that piece it's going to have
@@ -49,7 +48,6 @@ public class Piece {
 
     /**
      * Method to draw the sprite texture
-     *
      * @param spriteBatch Platform to draw textures
      */
     public void render(SpriteBatch spriteBatch) {
@@ -60,7 +58,6 @@ public class Piece {
 
     /**
      * Method to get the absolute position in pixel of the abscissa X
-     *
      * @return absolute position in pixel of the abscissa X
      */
     private float absoluteCol() {
@@ -69,7 +66,6 @@ public class Piece {
 
     /**
      * Method to get the absolute position in pixel of the abscissa Y
-     *
      * @return absolute position in pixel of the abscissa Y
      */
     private float absoluteRow() {
@@ -85,7 +81,6 @@ public class Piece {
 
     /**
      * Method getter for the atribute position X
-     *
      * @return Acual position from the piece
      */
     public int getRelativeCol() {
@@ -94,7 +89,6 @@ public class Piece {
 
     /**
      * Method getter for the atribute position Y
-     *
      * @return Acual position Y from the piece
      */
     public int getRelativeRow() {

@@ -24,8 +24,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private void getSmallerDisplaySize() {
         int ScreenWidth = Gdx.graphics.getWidth(); // Get the Width of the screen size in pixels
         int ScreenHeight = Gdx.graphics.getHeight(); // Get the Height of the screen size in pixels
-        // The smaller dimension between the Width and the Height of the screen
-        this.smallerDimension = Math.min(ScreenWidth, ScreenHeight);
+        this.smallerDimension = Math.min(ScreenWidth, ScreenHeight); // The smaller dimension between the Width and the Height of the screen
     }
 
     private int getCellDimesions() {
@@ -39,7 +38,7 @@ public class MyGdxGame extends ApplicationAdapter {
         //batch.begin();
         //batch.draw(img, 0, 0);
         //batch.end();
-        mainController.render(batch);
+        mainController.loop(batch);
     }
 
     @Override
