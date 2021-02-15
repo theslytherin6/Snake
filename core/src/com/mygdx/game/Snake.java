@@ -37,17 +37,10 @@ public class Snake {
     /**
      * Builder of snake
      *
-     * @param initRelativeCol  X relative position that piece it's going to have
-     * @param initRelativeRow  Y relative position that piece it's going to have
-     * @param initDirection    Initial direction of the Snake to move
-     * @param width            width of piece
-     */
-
-    /**
-     * @param initRelativeCol initial relative X position
-     * @param initRelativeRow initial relative Y position
-     * @param initDirection initial snake direction
-     * @param width width for every Piece
+     * @param initRelativeCol  initial relative X position
+     * @param initRelativeRow  initial relative Y position
+     * @param initDirection    initial snake direction
+     * @param width            width for every Piece
      */
     public Snake(int initRelativeCol, int initRelativeRow, int initDirection, float width) {
         this.pieceList = new LinkedList<>();
