@@ -34,20 +34,27 @@ public class Snake {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // BUILDER
-
+    /**
+     * Builder of snake
+     *
+     * @param initRelativeCol  initial relative X position
+     * @param initRelativeRow  initial relative Y position
+     * @param initDirection    initial snake direction
+     * @param width            width for every Piece
+     */
     public Snake(int initRelativeCol, int initRelativeRow, int initDirection, float width) {
-        pieceList = new LinkedList<>();
+        this.pieceList = new LinkedList<>();
         Piece piece = new Piece(initRelativeCol, initRelativeRow, width, this.IMAGE);
-        initDirection = this.lastMovement;
+        this.pieceList.add(piece);
+        this.lastMovement = initDirection;
     }
 
     /**
      * Method to move the Snake
      */
     public void move() {
-        this.pieceList.removeLast();
         this.grow();
+        this.pieceList.removeLast();
     }
 
     /**
@@ -61,16 +68,15 @@ public class Snake {
 
     /**
      * Method to move a specific piece
-     *
      * @param pieceToMove piece that it's going to move
      */
     private void moveSpecificPiece(Piece pieceToMove) {
         switch (lastMovement) {
             case Snake.UP:
-                pieceToMove.decrementRow();
+                pieceToMove.incrementRow();
                 break;
             case Snake.DOWN:
-                pieceToMove.incrementRow();
+                pieceToMove.decrementRow();
                 break;
             case Snake.LEFT:
                 pieceToMove.decrementCol();
@@ -85,34 +91,28 @@ public class Snake {
 
     /**
      * Method to change the direction of the Snake
-     *
      * @param movement one of the following directions (UP,DOWN,LEFT,RIGHT)
      */
     public void changeMovement(int movement) {
-
-        if (this.isMovementValid(movement)) this.lastMovement = movement;
-
+        if (this.isMovementValid(movement))
+            this.lastMovement = movement;
     }
 
     /**
      * Method to check if the movement is opposite or not
-     *
      * @param movement
      * @return true if the movement is not opposite
      */
     private boolean isMovementValid(int movement) {
-
         return this.lastMovement + movement != 0;
-
     }
 
     /**
      * Method to render the piece list from snake
-     *
      * @param spriteBatch
      */
     public void render(SpriteBatch spriteBatch) {
-        for (Piece piece : pieceList) {
+        for (Piece piece : this.pieceList) {
             piece.render(spriteBatch);
         }
     }
@@ -122,7 +122,7 @@ public class Snake {
      */
     public void dispose() {
 
-        for (Piece piece : pieceList) {
+        for (Piece piece : this.pieceList) {
             piece.dispose();
         }
     }

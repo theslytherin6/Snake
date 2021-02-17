@@ -11,25 +11,24 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
     private Controller mainController;
-    private float smallerDimension;
+    private int smallerDimension;
 
     @Override
     public void create() {
-        //batch = new SpriteBatch();
+        batch = new SpriteBatch();
         //img = new Texture("badlogic.jpg");
         this.getSmallerDisplaySize();
-        mainController = Controller.create(getCellDimesions());
+        mainController = Controller.create(getCellDimesions(), this.smallerDimension, this.smallerDimension);
     }
 
     private void getSmallerDisplaySize() {
         int ScreenWidth = Gdx.graphics.getWidth(); // Get the Width of the screen size in pixels
         int ScreenHeight = Gdx.graphics.getHeight(); // Get the Height of the screen size in pixels
-        // The smaller dimension between the Width and the Height of the screen
-        this.smallerDimension = Math.min(ScreenWidth, ScreenHeight);
+        this.smallerDimension = Math.min(ScreenWidth, ScreenHeight); // The smaller dimension between the Width and the Height of the screen
     }
 
-    private float getCellDimesions() {
-        return (float) (this.smallerDimension * 0.9) / 20;
+    private int getCellDimesions() {
+        return (int) (this.smallerDimension * 0.9 / 20);
     }
 
     @Override
@@ -39,7 +38,7 @@ public class MyGdxGame extends ApplicationAdapter {
         //batch.begin();
         //batch.draw(img, 0, 0);
         //batch.end();
-        mainController.render(batch);
+        mainController.loop(batch);
     }
 
     @Override
