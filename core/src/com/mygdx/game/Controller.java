@@ -21,6 +21,7 @@ public class Controller {
     private final int INIT_SNAKE_RELATIVE_COL = 10;
     private final int INIT_SNAKE_DIRECTION = Snake.RIGHT;
     private final int FRAMES_TO_SNAKE_MOVES = 60;
+    private final int FRAMES_TO_SNAKE_GROWS = 240;
     private Snake snake;
     private KeyBoardEmulator keyBoardEmulator;
     private int displayWidth;
@@ -104,9 +105,12 @@ public class Controller {
      */
     private void snakeHandler() {
         this.contador++;
-        if (this.contador == this.FRAMES_TO_SNAKE_MOVES) {
-            this.moveSnake();
+        if (this.contador == this.FRAMES_TO_SNAKE_GROWS) {
+            this.growSnake();
             this.contador = 0;
+        }
+        else if (this.contador % this.FRAMES_TO_SNAKE_MOVES == 0) {
+            this.moveSnake();
         }
     }
 
@@ -115,6 +119,10 @@ public class Controller {
      */
     private void moveSnake() {
         this.snake.move();
+    }
+
+    private void growSnake() {
+        this.snake.grow();
     }
 
     /**
