@@ -2,24 +2,28 @@ package com.mygdx.game;
 
 public class KeyBoardEmulator {
 
-    private int displayWidth,
+    private float displayWidth,
                 displayHeight,
                 leftLimit,
                 rightLimit,
                 topLimit,
-                botLimit;
+                botLimit,
+                yOffset,
+                xOffset;
 
     private int moveSelected;
 
     private static final float MARGIN_LIMIT = .3f;
 
     /**
-     * @param displayWidth display width size
+     * @param DisplayWidth display width size
      * @param displayHeight display height size
      */
-    public KeyBoardEmulator(int displayWidth, int displayHeight){
-        this.displayHeight = displayHeight;
-        this.displayWidth = displayWidth;
+    public KeyBoardEmulator(float newXOffset, float newYOffset, float newDisplayWidth, float newDisplayHeight){
+        this.displayHeight = newDisplayHeight;
+        this.displayWidth = newDisplayWidth;
+        this.yOffset = newYOffset;
+        this.xOffset = newXOffset;
         this.calculateLimits();
         this.moveSelected = 0;
         // debugging prints
@@ -34,10 +38,10 @@ public class KeyBoardEmulator {
      * Method for calculate buttons limits
      */
     private void calculateLimits(){
-        this.leftLimit = (int) (this.displayWidth * KeyBoardEmulator.MARGIN_LIMIT);
-        this.rightLimit = (int) (this.displayWidth * this.oppositePercentSide());
-        this.topLimit = (int) (this.displayHeight * KeyBoardEmulator.MARGIN_LIMIT);
-        this.botLimit = (int) (this.displayHeight * this.oppositePercentSide());
+        this.leftLimit =  this.displayWidth * KeyBoardEmulator.MARGIN_LIMIT;
+        this.rightLimit =  this.displayWidth * this.oppositePercentSide();
+        this.topLimit =  this.displayHeight * KeyBoardEmulator.MARGIN_LIMIT;
+        this.botLimit =  this.displayHeight * this.oppositePercentSide();
     }
 
     /**
@@ -57,6 +61,9 @@ public class KeyBoardEmulator {
     public void emulate(int positionX, int positionY){
         this.checkAxisX(positionX);
         this.checkAxisY(positionY);
+        System.out.println(positionX);
+        System.out.println(positionY);
+        System.out.println("--");
     }
 
     /**
@@ -87,7 +94,7 @@ public class KeyBoardEmulator {
      * @return true if and only if the position is in the limits
      */
     private boolean touchOnTopSite(int position){
-        return 0 <= position && position <= this.topLimit;
+        return this.yOffset <= position && position <= this.topLimit;
     }
 
     /**
@@ -105,7 +112,7 @@ public class KeyBoardEmulator {
      * @return true if and only if the position is in the limits
      */
     private boolean touchOnLeftSite(int position){
-        return 0 <= position && position <= this.leftLimit;
+        return this.xOffset <= position && position <= this.leftLimit;
     }
 
     /**

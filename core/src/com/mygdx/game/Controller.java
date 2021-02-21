@@ -52,7 +52,7 @@ public class Controller {
     private Controller(float cellWidth, float newXOffset, float newYOffset, float newDisplayWidth, float newDisplayHeight) {
         this.snake = new Snake(this.INIT_SNAKE_RELATIVE_COL, this.INIT_SNAKE_RELATIVE_ROW, this.INIT_SNAKE_DIRECTION, cellWidth);
 //        this.keyBoardEmulator = new KeyBoardEmulator(newDisplayWidth, newDisplayHeight);
-//        this.keyBoardEmulator = new KeyBoardEmulator(newInitAbsoluteX, newIitAbsoluteY, newDisplayWidth, newDisplayHeight);
+       this.keyBoardEmulator = new KeyBoardEmulator(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight);
         this.displayWidth = newDisplayWidth;
         this.displayHeight = newDisplayHeight;
         this.xOffset = newXOffset;
