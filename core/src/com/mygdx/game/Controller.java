@@ -19,18 +19,28 @@ public class Controller {
 
     private static Controller controller;
     private static final String GRASS = "grass.png";
+    private static final String START = "start.png";
+    private static final String END = "end.png";
     private Texture background;
-    private final int INIT_SNAKE_RELATIVE_ROW = 10;
-    private final int INIT_SNAKE_RELATIVE_COL = 10;
-    private final int INIT_SNAKE_DIRECTION = Snake.RIGHT;
+    private Texture startBackground;
+    private Texture endBackground;
+    private final Directions INIT_SNAKE_DIRECTION = Directions.RIGHT;
     private final int FRAMES_TO_SNAKE_MOVES = 60;
+    private final int FRAMES_TO_SNAKE_GROWS = 240;
     private Snake snake;
     private KeyBoardEmulator keyBoardEmulator;
     private final float displayWidth;
     private final float displayHeight;
     private final float xOffset;
     private final float yOffset;
-    private int contador;
+    private int counter;
+    public enum gameStates{
+        GAME_START,
+        PLAYING,
+        GAME_END
+    }
+    private gameStates controllerVG;
+    private SpriteBatch spriteBatch;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,35 +53,40 @@ public class Controller {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Builder of controller
      *
-     * @param cellWidth     Width of the cells where Snake would move
-     * @param displayWidth  Width of the display
-     * @param displayHeight Height of the display
+     * @param cellWidth         Width of the cells where Snake would move
+     * @param newXOffset
+     * @param newYOffset
+     * @param newDisplayWidth   Width of the display
+     * @param newDisplayHeight  Height of the display
      */
-    private Controller(float cellWidth, float newXOffset, float newYOffset, float newDisplayWidth, float newDisplayHeight) {
-        this.snake = new Snake(this.INIT_SNAKE_RELATIVE_COL, this.INIT_SNAKE_RELATIVE_ROW, this.INIT_SNAKE_DIRECTION, cellWidth);
-//        this.keyBoardEmulator = new KeyBoardEmulator(newDisplayWidth, newDisplayHeight);
-       this.keyBoardEmulator = new KeyBoardEmulator(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight);
+    private Controller(float cellWidth, float newXOffset, float newYOffset, float newDisplayWidth, float newDisplayHeight, SpriteBatch spriteBatch) {
+        this.snake = new Snake(newXOffset,newYOffset,newDisplayWidth,newDisplayHeight, this.INIT_SNAKE_DIRECTION, cellWidth);
+        this.keyBoardEmulator = new KeyBoardEmulator(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight);
         this.displayWidth = newDisplayWidth;
         this.displayHeight = newDisplayHeight;
         this.xOffset = newXOffset;
         this.yOffset = newYOffset;
-        this.contador = 0;
+        this.counter = 0;
         this.background = new Texture(Controller.GRASS);
+        this.startBackground = new Texture(Controller.START);
+        this.endBackground = new Texture(Controller.END);
+        this.controllerVG = gameStates.GAME_START;
+        this.spriteBatch = spriteBatch;
     }
 
     /**
-     * Method to create a Controller
      *
-     * @param cellWidth     Width of the cells where Snake would move
-     * @param displayWidth  Width of the display
-     * @param displayHeight Height of the display
+     * @param cellWidth         Width of the cells where Snake would move
+     * @param newXOffset
+     * @param newYOffset
+     * @param newDisplayWidth   Height of the display
+     * @param newDisplayHeight  Width of the display
      * @return A controller if the there is not other controller
      */
-    public static Controller create(float cellWidth, float newXOffset, float newYOffset, float newDisplayWidth, float newDisplayHeight) {
+    public static Controller create(float cellWidth, float newXOffset, float newYOffset, float newDisplayWidth, float newDisplayHeight, SpriteBatch spriteBatch) {
         if (Controller.controller == null)
-            Controller.controller = new Controller(cellWidth, newXOffset, newYOffset, newDisplayWidth, newDisplayHeight);
+            Controller.controller = new Controller(cellWidth, newXOffset, newYOffset, newDisplayWidth, newDisplayHeight, spriteBatch);
         return Controller.controller;
     }
 
@@ -79,23 +94,46 @@ public class Controller {
      * Method to manage the objects associated to the controller
      * @param spriteBatch Platform to draw textures
      */
-    public void loop(SpriteBatch spriteBatch) {
-        this.render(spriteBatch);
+    public void loop() {
+        switch (controllerVG){
+            case GAME_START:
+                this.startScreen();
+                break;
+            case PLAYING:
+                this.gameStarted();
+                break;
+            case GAME_END:
+                this.gameFinished();
+        }
+    }
+
+    private void startScreen(){
+        this.spriteBatch.begin();
+        this.spriteBatch.draw(this.startBackground, this.xOffset, this.yOffset, this.displayWidth, this.displayHeight);
+        this.spriteBatch.end();
+
+        boolean screenTouched = Gdx.input.justTouched();
+        if (screenTouched) this.controllerVG = gameStates.PLAYING;
+    }
+
+    private void gameStarted(){
+        this.renderPlaying();
         this.touchHandler();
         this.snakeHandler();
+
+        // if(se ha chocado) --> this.controllerVG= gameStates.GAME_END;
     }
 
     /**
      * Method to draw the sprite texture and the background
      * @param spriteBatch Platform to draw textures
      */
-    private void render(SpriteBatch spriteBatch) {
+    private void renderPlaying() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        spriteBatch.begin();
-        spriteBatch.draw(this.background, this.xOffset, this.yOffset, this.displayWidth, this.displayHeight);
-//        spriteBatch.draw(this.background, 1,1,30,30);
-        spriteBatch.end();
+        this.spriteBatch.begin();
+        this.spriteBatch.draw(this.background, this.xOffset, this.yOffset, this.displayWidth, this.displayHeight);
+        this.spriteBatch.end();
         this.snake.render(spriteBatch);
     }
 
@@ -114,11 +152,24 @@ public class Controller {
      * Method responsible of the movement of the Snake
      */
     private void snakeHandler() {
-        this.contador++;
-        if (this.contador == this.FRAMES_TO_SNAKE_MOVES) {
-            this.moveSnake();
-            this.contador = 0;
+        this.counter++;
+        if (this.counter == this.FRAMES_TO_SNAKE_GROWS) {
+            this.growSnake();
+            this.counter = 0;
         }
+        else if (this.counter % this.FRAMES_TO_SNAKE_MOVES == 0) {
+            this.moveSnake();
+        }
+    }
+
+    private void gameFinished(){
+        System.out.println("aqui");
+        this.spriteBatch.begin();
+        this.spriteBatch.draw(this.endBackground, this.xOffset, this.yOffset, this.displayWidth, this.displayHeight);
+        this.spriteBatch.end();
+
+        boolean screenTouched = Gdx.input.justTouched();
+        if (screenTouched) this.controllerVG = gameStates.GAME_START;
     }
 
     /**
@@ -126,6 +177,10 @@ public class Controller {
      */
     private void moveSnake() {
         this.snake.move();
+    }
+
+    private void growSnake() {
+        this.snake.grow();
     }
 
     /**

@@ -17,12 +17,14 @@ public class Snake {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private LinkedList<Piece> pieceList;
-    private int lastMovement;
-    public static final int UP = 1;
-    public static final int DOWN = -1;
-    public static final int LEFT = 2;
-    public static final int RIGHT = -2;
+    private Directions lastMovement;
     private final String IMAGE = "Snake.png";
+    private final float GAME_DISPLAY_INITIAL_X,
+                        GAME_DISPLAY_INITIAL_Y,
+                        GAME_DISPLAY_FINAL_X,
+                        GAME_DISPLAY_FINAL_Y;
+    private final int INIT_RELATIVE_COL=10,
+                      INIT_RELATIVE_ROW=10;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,11 +44,16 @@ public class Snake {
      * @param initDirection    initial snake direction
      * @param width            width for every Piece
      */
-    public Snake(int initRelativeCol, int initRelativeRow, int initDirection, float width) {
+    public Snake(float newGameDisplayInitialX,float newGameDisplayInitialY,float newGameDisplayFinalX,float newGameDisplayFinalY ,Directions initDirection, float width) {
         this.pieceList = new LinkedList<>();
-        Piece piece = new Piece(initRelativeCol, initRelativeRow, width, this.IMAGE);
+        Piece piece = new Piece(width*this.INIT_RELATIVE_COL+newGameDisplayInitialX, width*this.INIT_RELATIVE_ROW+newGameDisplayInitialY, width, this.IMAGE);
         this.pieceList.add(piece);
         this.lastMovement = initDirection;
+        this.GAME_DISPLAY_FINAL_X = newGameDisplayFinalX;
+        this.GAME_DISPLAY_FINAL_Y = newGameDisplayFinalY;
+        this.GAME_DISPLAY_INITIAL_X = newGameDisplayInitialX;
+        this.GAME_DISPLAY_INITIAL_Y = newGameDisplayInitialY;
+
     }
 
     /**
@@ -72,16 +79,16 @@ public class Snake {
      */
     private void moveSpecificPiece(Piece pieceToMove) {
         switch (lastMovement) {
-            case Snake.UP:
+            case UP:
                 pieceToMove.incrementRow();
                 break;
-            case Snake.DOWN:
+            case DOWN:
                 pieceToMove.decrementRow();
                 break;
-            case Snake.LEFT:
+            case LEFT:
                 pieceToMove.decrementCol();
                 break;
-            case Snake.RIGHT:
+            case RIGHT:
                 pieceToMove.incrementCol();
                 break;
             default:
@@ -93,7 +100,7 @@ public class Snake {
      * Method to change the direction of the Snake
      * @param movement one of the following directions (UP,DOWN,LEFT,RIGHT)
      */
-    public void changeMovement(int movement) {
+    public void changeMovement(Directions movement) {
         if (this.isMovementValid(movement))
             this.lastMovement = movement;
     }
@@ -103,8 +110,8 @@ public class Snake {
      * @param movement
      * @return true if the movement is not opposite
      */
-    private boolean isMovementValid(int movement) {
-        return this.lastMovement + movement != 0;
+    private boolean isMovementValid(Directions movement) {
+        return this.lastMovement.value + movement.value != 0;
     }
 
     /**
@@ -132,18 +139,18 @@ public class Snake {
      *
      * @return true if the piece can move
      */
-    /*public boolean canMove() {
+    public boolean isDead() {
 
-        //creamos una pieza clonada de la primera pieza y la movemos en la ultima direccion y recorremos el linked list para
-        //saber si colisionaria con alguna de las piezas de snake y controlar la pieza que se va a borrar
+        //method to check if the snake is dead
 
-        Piece clonedFirstPiece = this.pieceList.getFirst().clone();
-        this.movePiece(clonedFirstPiece);
-        for (Piece c : pieceList) {
-            if (c.isColliding(clonedFirstPiece)) return false;
+        for (int i=5;i<pieceList.size();i++) {
+            if (pieceList.getFirst().isColliding(pieceList.get(i))) return true;
         }
-        return true;
+
+       if((pieceList.getFirst().getAbsoluteCol() < this.GAME_DISPLAY_INITIAL_X || pieceList.getFirst().getAbsoluteCol() < this.GAME_DISPLAY_FINAL_X) && (pieceList.getFirst().getAbsoluteRow() < this.GAME_DISPLAY_INITIAL_Y || pieceList.getFirst().getAbsoluteRow() < this.GAME_DISPLAY_FINAL_Y)) return true;
+
+       return false;
     }
 
-     */
+
 }
