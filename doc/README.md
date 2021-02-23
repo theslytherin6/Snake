@@ -21,7 +21,7 @@ Lenguaje dentro del proyecto: Ingles.<br>
 
 ## Reunión 21/02/2021
 El programador Basilio terminó de arreglar los bugs comentados anteriormente ademas de pasar las direcciones de Snake a un enum aparte
-## Reunión 21/02/2021
+## Reunión 20/02/2021
 Los programadores(Raúl,Sergio y Basilio) se centraron en arreglar los bugs que se provocaban respecto al cambio de movimiento 
 ## Reunión 15/02/2021
 Los programadores han comentado los metodos de las clases Controller y keyBoardEmulator ademas de arreglar el problema que existía en los controles, ya que estaban invertidos
