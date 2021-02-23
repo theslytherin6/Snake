@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import static com.mygdx.game.Directions.*;
+
 public class KeyBoardEmulator {
 
     private float displayWidth,
@@ -11,7 +13,7 @@ public class KeyBoardEmulator {
                 yOffset,
                 xOffset;
 
-    private int moveSelected;
+    private Directions moveSelected;
 
     private static final float MARGIN_LIMIT = .3f;
 
@@ -25,7 +27,7 @@ public class KeyBoardEmulator {
         this.yOffset = newYOffset;
         this.xOffset = newXOffset;
         this.calculateLimits();
-        this.moveSelected = 0;
+        this.moveSelected = null;
         // debugging prints
         System.out.println("LIMITS");
         System.out.println("T:" + this.topLimit);
@@ -38,10 +40,10 @@ public class KeyBoardEmulator {
      * Method for calculate buttons limits
      */
     private void calculateLimits(){
-        this.leftLimit =  this.displayWidth * KeyBoardEmulator.MARGIN_LIMIT;
-        this.rightLimit =  this.displayWidth * this.oppositePercentSide();
-        this.topLimit =  this.displayHeight * KeyBoardEmulator.MARGIN_LIMIT;
-        this.botLimit =  this.displayHeight * this.oppositePercentSide();
+        this.leftLimit = this.xOffset + this.displayWidth * KeyBoardEmulator.MARGIN_LIMIT;
+        this.rightLimit = this.xOffset + this.displayWidth * this.oppositePercentSide();
+        this.topLimit =  this.yOffset + this.displayHeight * KeyBoardEmulator.MARGIN_LIMIT;
+        this.botLimit =  this.yOffset + this.displayHeight * this.oppositePercentSide();
     }
 
     /**
@@ -72,9 +74,9 @@ public class KeyBoardEmulator {
      */
     private void checkAxisX(int position){
         if (this.touchOnLeftSite(position))
-            this.moveSelected = Snake.LEFT;
+            this.moveSelected = LEFT;
         if (this.touchOnRightSite(position))
-            this.moveSelected = Snake.RIGHT;
+            this.moveSelected = RIGHT;
     }
 
     /**
@@ -83,9 +85,9 @@ public class KeyBoardEmulator {
      */
     private void checkAxisY(int position){
         if (this.touchOnTopSite(position))
-            this.moveSelected = Snake.UP;
+            this.moveSelected = UP;
         if (this.touchOnBotSite(position))
-            this.moveSelected = Snake.DOWN;
+            this.moveSelected = DOWN;
     }
 
     /**
@@ -94,6 +96,8 @@ public class KeyBoardEmulator {
      * @return true if and only if the position is in the limits
      */
     private boolean touchOnTopSite(int position){
+        System.out.print("Top: ");
+        System.out.println(this.yOffset + " " + position + " " + this.topLimit);
         return this.yOffset <= position && position <= this.topLimit;
     }
 
@@ -103,7 +107,9 @@ public class KeyBoardEmulator {
      * @return true if and only if the position is in the limits
      */
     private boolean touchOnBotSite(int position){
-        return this.botLimit <= position && position <= this.displayHeight;
+        System.out.print("bot: ");
+        System.out.println(this.botLimit + " " + position + " " + this.displayHeight);
+        return this.botLimit <= position && position <= this.yOffset + this.displayHeight;
     }
 
     /**
@@ -112,6 +118,8 @@ public class KeyBoardEmulator {
      * @return true if and only if the position is in the limits
      */
     private boolean touchOnLeftSite(int position){
+        System.out.print("Left: ");
+        System.out.println(this.xOffset + " " + position + " " + this.leftLimit);
         return this.xOffset <= position && position <= this.leftLimit;
     }
 
@@ -121,14 +129,16 @@ public class KeyBoardEmulator {
      * @return true if and only if the position is in the limits
      */
     private boolean touchOnRightSite(int position){
-        return this.rightLimit <= position && position <= this.displayWidth;
+        System.out.print("Rigth: ");
+        System.out.println(this.rightLimit + " " + position + " " + this.displayWidth);
+        return this.rightLimit <= position && position <= this.xOffset + this.displayWidth;
     }
 
     /**
      * Getter for the attribute moveSelected
      * @return snake move code
      */
-    public int getMoveSelected(){
+    public Directions getMoveSelected(){
         return this.moveSelected;
     }
 }

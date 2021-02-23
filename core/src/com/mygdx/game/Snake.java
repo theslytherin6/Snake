@@ -17,11 +17,11 @@ public class Snake {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private LinkedList<Piece> pieceList;
-    private int lastMovement;
-    public static final int UP = 1;
-    public static final int DOWN = -1;
-    public static final int LEFT = 2;
-    public static final int RIGHT = -2;
+    private Directions lastMovement;
+//    public static final int UP = 1;
+//    public static final int DOWN = -1;
+//    public static final int LEFT = 2;
+//    public static final int RIGHT = -2;
     private final String IMAGE = "Snake.png";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +42,7 @@ public class Snake {
      * @param initDirection    initial snake direction
      * @param width            width for every Piece
      */
-    public Snake(int initRelativeCol, int initRelativeRow, int initDirection, float width) {
+    public Snake(int initRelativeCol, int initRelativeRow, Directions initDirection, float width) {
         this.pieceList = new LinkedList<>();
         Piece piece = new Piece(initRelativeCol, initRelativeRow, width, this.IMAGE);
         this.pieceList.add(piece);
@@ -72,16 +72,16 @@ public class Snake {
      */
     private void moveSpecificPiece(Piece pieceToMove) {
         switch (lastMovement) {
-            case Snake.UP:
+            case UP:
                 pieceToMove.incrementRow();
                 break;
-            case Snake.DOWN:
+            case DOWN:
                 pieceToMove.decrementRow();
                 break;
-            case Snake.LEFT:
+            case LEFT:
                 pieceToMove.decrementCol();
                 break;
-            case Snake.RIGHT:
+            case RIGHT:
                 pieceToMove.incrementCol();
                 break;
             default:
@@ -93,7 +93,7 @@ public class Snake {
      * Method to change the direction of the Snake
      * @param movement one of the following directions (UP,DOWN,LEFT,RIGHT)
      */
-    public void changeMovement(int movement) {
+    public void changeMovement(Directions movement) {
         if (this.isMovementValid(movement))
             this.lastMovement = movement;
     }
@@ -103,8 +103,8 @@ public class Snake {
      * @param movement
      * @return true if the movement is not opposite
      */
-    private boolean isMovementValid(int movement) {
-        return this.lastMovement + movement != 0;
+    private boolean isMovementValid(Directions movement) {
+        return this.lastMovement.value + movement.value != 0;
     }
 
     /**

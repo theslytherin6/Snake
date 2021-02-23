@@ -22,7 +22,7 @@ public class Controller {
     private Texture background;
     private final int INIT_SNAKE_RELATIVE_ROW = 10;
     private final int INIT_SNAKE_RELATIVE_COL = 10;
-    private final int INIT_SNAKE_DIRECTION = Snake.RIGHT;
+    private final Directions INIT_SNAKE_DIRECTION = Directions.RIGHT;
     private final int FRAMES_TO_SNAKE_MOVES = 60;
     private Snake snake;
     private KeyBoardEmulator keyBoardEmulator;
