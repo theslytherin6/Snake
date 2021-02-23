@@ -25,8 +25,6 @@ public class Controller {
     private Texture background;
     private Texture startBackground;
     private Texture endBackground;
-    private final int INIT_SNAKE_RELATIVE_ROW = 10;
-    private final int INIT_SNAKE_RELATIVE_COL = 10;
     private final Directions INIT_SNAKE_DIRECTION = Directions.RIGHT;
     private final int FRAMES_TO_SNAKE_MOVES = 60;
     private final int FRAMES_TO_SNAKE_GROWS = 240;
@@ -65,7 +63,7 @@ public class Controller {
      * @param newDisplayHeight  Height of the display
      */
     private Controller(float cellWidth, float newXOffset, float newYOffset, float newDisplayWidth, float newDisplayHeight, SpriteBatch spriteBatch) {
-        this.snake = new Snake(this.INIT_SNAKE_RELATIVE_COL, this.INIT_SNAKE_RELATIVE_ROW, this.INIT_SNAKE_DIRECTION, cellWidth);
+        this.snake = new Snake(newXOffset,newYOffset,newDisplayWidth,newDisplayHeight, this.INIT_SNAKE_DIRECTION, cellWidth);
         this.keyBoardEmulator = new KeyBoardEmulator(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight);
         this.displayWidth = newDisplayWidth;
         this.displayHeight = newDisplayHeight;
