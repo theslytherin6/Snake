@@ -28,7 +28,8 @@ public class MyGdxGame extends ApplicationAdapter {
         mainController = Controller.create(getCellDimesions(), this.mainXOffset + this.gameXOffset,
                                                                 this.mainYOffset + this.gameYOffset,
                                                                 this.smallerDimension - 2 * this.gameXOffset,
-                                                                this.smallerDimension - 2 * this.gameYOffset);
+                                                                this.smallerDimension - 2 * this.gameYOffset,
+                                                                this.batch);
     }
 
     private void getScreenProperties(){
@@ -63,7 +64,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
     @Override
     public void render() {
-        mainController.loop(batch);
+        this.mainController.loop();
     }
 
     @Override
