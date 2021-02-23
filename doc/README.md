@@ -19,6 +19,16 @@ Los puestos de trabajo rotan cada semana y van por orden alfabético empezando p
 </ul>
 Lenguaje dentro del proyecto: Ingles.<br>
 
+## Reunión 21/02/2021
+El programador Basilio terminó de arreglar los bugs comentados anteriormente ademas de pasar las direcciones de Snake a un enum aparte
+## Reunión 21/02/2021
+Los programadores(Raúl,Sergio y Basilio) se centraron en arreglar los bugs que se provocaban respecto al cambio de movimiento 
+## Reunión 15/02/2021
+Los programadores han comentado los metodos de las clases Controller y keyBoardEmulator ademas de arreglar el problema que existía en los controles, ya que estaban invertidos
+
+## Reunión 14/02/2021
+Los programadores fragmentaron el bucle de la clase render ,arreglaron errores tales como que la serpiente no se podia mover  ademas de optimizar el metodo move de la clase Snake para un mejor funcionamiento de este y por ultimo mejoraron keyBoardEmulator
+
 ## Reunión 10/02/2021 <br>
 
 Basilio antes de la reunión semanal prepara el Readme, arreglando errores y añadiendo los trabajos de esta semana.
