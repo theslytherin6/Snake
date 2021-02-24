@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.audio.Sound;
 
 public class Controller {
 
@@ -41,6 +42,7 @@ public class Controller {
     }
     private gameStates controllerVG;
     private SpriteBatch spriteBatch;
+    private Sound movementSound;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,6 +78,7 @@ public class Controller {
         this.endBackground = new Texture(Controller.END);
         this.controllerVG = gameStates.GAME_START;
         this.spriteBatch = spriteBatch;
+        movementSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/movement.mp3"));
     }
 
     /**
@@ -159,9 +162,11 @@ public class Controller {
         if (this.counter == this.FRAMES_TO_SNAKE_GROWS) {
             this.growSnake();
             this.counter = 0;
+            movementSound.play();
         }
         else if (this.counter % this.FRAMES_TO_SNAKE_MOVES == 0) {
             this.moveSnake();
+            movementSound.play();
         }
     }
 
@@ -190,5 +195,6 @@ public class Controller {
      */
     public void dispose() {
         this.snake.dispose();
+        movementSound.dispose();
     }
 }

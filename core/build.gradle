@@ -1,4 +1,7 @@
 sourceCompatibility = 1.7
+dependencies {
+    implementation 'com.android.support:media2:28.0.0-alpha03'
+}
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
