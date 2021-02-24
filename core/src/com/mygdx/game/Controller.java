@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -40,6 +41,7 @@ public class Controller {
     private KeyBoardEmulator keyBoardEmulator;
     private SpriteBatch spriteBatch;
     private Sound movementSound;
+    private Music backgroundMusic;
 
     public enum gameStates{
         GAME_START,
@@ -79,6 +81,7 @@ public class Controller {
         this.controllerVG = gameStates.GAME_START;
         this.spriteBatch = spriteBatch;
         this.movementSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/movement.mp3"));
+        this.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Sounds/backgroundMusic.mp3"));
     }
 
     /**
@@ -119,8 +122,10 @@ public class Controller {
         this.spriteBatch.end();
 
         boolean screenTouched = Gdx.input.justTouched();
-        if (screenTouched)
+        if (screenTouched) {
             this.controllerVG = gameStates.PLAYING;
+            this.backgroundMusic.play();
+        }
     }
 
     private void gameStarted(){
@@ -157,16 +162,18 @@ public class Controller {
      * Method responsible of the movement of the Snake
      */
     private void snakeHandler() {
-        if (this.snake.isDead())
+        if (this.snake.isDead()) {
             this.controllerVG = gameStates.GAME_END;
+            this.backgroundMusic.stop();
+        }
         this.framesCounter++;
         if (this.framesCounter == Controller.FRAMES_TO_SNAKE_GROWS) {
             this.growSnake();
             this.framesCounter = 0;
-            movementSound.play();
+            this.movementSound.play();
         } else if (this.framesCounter % Controller.FRAMES_TO_SNAKE_MOVES == 0) {
             this.moveSnake();
-            movementSound.play();
+            this.movementSound.play();
         }
     }
 
@@ -195,6 +202,7 @@ public class Controller {
      */
     public void dispose() {
         this.snake.dispose();
-        movementSound.dispose();
+        this.movementSound.dispose();
+        this.backgroundMusic.dispose();
     }
 }
