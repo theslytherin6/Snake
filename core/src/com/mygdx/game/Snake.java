@@ -143,8 +143,7 @@ public class Snake {
     public boolean isDead() {
 
         Piece head = this.pieceList.getFirst();
-
-        for (int i=5;i<pieceList.size();i++) {
+        for (int i=4;i<pieceList.size();i++) {
             if (head.isColliding(pieceList.get(i)))
                 return true;
         }
@@ -154,6 +153,4 @@ public class Snake {
                this.GAME_DISPLAY_INITIAL_Y < head.getAbsoluteRow() &&
                head.getAbsoluteRow() < this.GAME_DISPLAY_FINAL_Y + this.GAME_DISPLAY_INITIAL_Y);
     }
-
-
 }

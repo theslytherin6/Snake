@@ -18,32 +18,35 @@ public class Controller {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private static Controller controller;
     private static final String GRASS = "grass.png";
     private static final String START = "start.png";
     private static final String END = "end.png";
-    private Texture background;
-    private Texture startBackground;
-    private Texture endBackground;
-    private final Directions INIT_SNAKE_DIRECTION = Directions.RIGHT;
-    private final int FRAMES_TO_SNAKE_MOVES = 60;
-    private final int FRAMES_TO_SNAKE_GROWS = 240;
+    private static final Texture GAME_BACKGROUND = new Texture(Controller.GRASS);
+    private static final Texture START_BACKGROUND = new Texture(Controller.START);
+    private static final Texture END_BACKGROUND = new Texture(Controller.END);
+    private static final Directions INIT_SNAKE_DIRECTION = Directions.RIGHT;
+    private static final int FRAMES_TO_SNAKE_MOVES = 60;
+    private static final int FRAMES_TO_SNAKE_GROWS = 240;
+
+    private static Controller controller;
+
+    private final float DISPLAY_WIDTH;
+    private final float DISPLAY_HEIGHT;
+    private final float X_OFFSET;
+    private final float Y_OFFSET;
+
+    private int framesCounter;
     private Snake snake;
     private KeyBoardEmulator keyBoardEmulator;
-    private final float displayWidth;
-    private final float displayHeight;
-    private final float xOffset;
-    private final float yOffset;
-    private int counter;
+    private SpriteBatch spriteBatch;
+    private Sound movementSound;
+
     public enum gameStates{
         GAME_START,
         PLAYING,
         GAME_END
     }
     private gameStates controllerVG;
-    private SpriteBatch spriteBatch;
-    private Sound movementSound;
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,19 +69,16 @@ public class Controller {
         System.out.println("Debug Information -------------------");
         System.out.printf("width: %s\nX Offset: %s\nY Offset: %s\nDisplay Width: %s\n" +
                 "Display Height: %s\n", cellWidth, newXOffset, newYOffset, newDisplayWidth, newDisplayHeight);
-        this.snake = new Snake(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight, this.INIT_SNAKE_DIRECTION, cellWidth);
+        this.snake = new Snake(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight, Controller.INIT_SNAKE_DIRECTION, cellWidth);
         this.keyBoardEmulator = new KeyBoardEmulator(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight);
-        this.displayWidth = newDisplayWidth;
-        this.displayHeight = newDisplayHeight;
-        this.xOffset = newXOffset;
-        this.yOffset = newYOffset;
-        this.counter = 0;
-        this.background = new Texture(Controller.GRASS);
-        this.startBackground = new Texture(Controller.START);
-        this.endBackground = new Texture(Controller.END);
+        this.DISPLAY_WIDTH = newDisplayWidth;
+        this.DISPLAY_HEIGHT = newDisplayHeight;
+        this.X_OFFSET = newXOffset;
+        this.Y_OFFSET = newYOffset;
+        this.framesCounter = 0;
         this.controllerVG = gameStates.GAME_START;
         this.spriteBatch = spriteBatch;
-        movementSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/movement.mp3"));
+        this.movementSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/movement.mp3"));
     }
 
     /**
@@ -115,11 +115,12 @@ public class Controller {
 
     private void startScreen(){
         this.spriteBatch.begin();
-        this.spriteBatch.draw(this.startBackground, this.xOffset, this.yOffset, this.displayWidth, this.displayHeight);
+        this.spriteBatch.draw(Controller.START_BACKGROUND, this.X_OFFSET, this.Y_OFFSET, this.DISPLAY_WIDTH, this.DISPLAY_HEIGHT);
         this.spriteBatch.end();
 
         boolean screenTouched = Gdx.input.justTouched();
-        if (screenTouched) this.controllerVG = gameStates.PLAYING;
+        if (screenTouched)
+            this.controllerVG = gameStates.PLAYING;
     }
 
     private void gameStarted(){
@@ -136,7 +137,7 @@ public class Controller {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.spriteBatch.begin();
-        this.spriteBatch.draw(this.background, this.xOffset, this.yOffset, this.displayWidth, this.displayHeight);
+        this.spriteBatch.draw(Controller.GAME_BACKGROUND, this.X_OFFSET, this.Y_OFFSET, this.DISPLAY_WIDTH, this.DISPLAY_HEIGHT);
         this.spriteBatch.end();
         this.snake.render(spriteBatch);
     }
@@ -158,13 +159,12 @@ public class Controller {
     private void snakeHandler() {
         if (this.snake.isDead())
             this.controllerVG = gameStates.GAME_END;
-        this.counter++;
-        if (this.counter == this.FRAMES_TO_SNAKE_GROWS) {
+        this.framesCounter++;
+        if (this.framesCounter == Controller.FRAMES_TO_SNAKE_GROWS) {
             this.growSnake();
-            this.counter = 0;
+            this.framesCounter = 0;
             movementSound.play();
-        }
-        else if (this.counter % this.FRAMES_TO_SNAKE_MOVES == 0) {
+        } else if (this.framesCounter % Controller.FRAMES_TO_SNAKE_MOVES == 0) {
             this.moveSnake();
             movementSound.play();
         }
@@ -172,7 +172,7 @@ public class Controller {
 
     private void gameFinished(){
         this.spriteBatch.begin();
-        this.spriteBatch.draw(this.endBackground, this.xOffset, this.yOffset, this.displayWidth, this.displayHeight);
+        this.spriteBatch.draw(Controller.END_BACKGROUND, this.X_OFFSET, this.Y_OFFSET, this.DISPLAY_WIDTH, this.DISPLAY_HEIGHT);
         this.spriteBatch.end();
 
         boolean screenTouched = Gdx.input.justTouched();

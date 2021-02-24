@@ -2,71 +2,89 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MyGdxGame extends ApplicationAdapter {
-    SpriteBatch batch;
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////
+////// STATE
+//////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private final static float USABLE_PERCENT = .9f;
+    private final static int PIECES_PER_AXIS = 20;
 
     private Controller mainController;
-    private float smallerDimension;
-    private float screenWidth;
-    private float screenHeight;
-    private float mainXOffset;
-    private float gameXOffset;
-    private float mainYOffset;
-    private float gameYOffset;
+    private int finalDisplaySize;
+    private int screenWidth;
+    private int screenHeight;
+    private int finalLeftOffsetX;
+    private int finalDownOffsetY;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////
+////// BEHAVIOR//CONDUCT
+//////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        this.getScreenProperties();
+        SpriteBatch batch = new SpriteBatch();
+        this.calculateDisplayCharacteristics();
 
-        int finalOffsetX = (int) (this.mainXOffset + this.gameYOffset);
-        int finalOffsetY = (int) (this.mainYOffset + this.gameYOffset);
-        int finalDisplayX = (int) (20*(Math.floor((this.smallerDimension - 2 * this.gameXOffset)/20)));
-        int finalDisplayY = finalDisplayX;
-        int finalCellDimentions = finalDisplayX/20;
-
-        mainController = Controller.create(finalCellDimentions,
-                finalOffsetX,
-                finalOffsetY,
-                finalDisplayX,
-                finalDisplayY,
-                this.batch);
+        mainController = Controller.create(getCellDimesions(),
+                this.finalLeftOffsetX,
+                this.finalDownOffsetY,
+                this.finalDisplaySize,
+                this.finalDisplaySize,
+                batch);
     }
 
-    private void getScreenProperties(){
-        this.getSmallerDisplaySize();
+    private void calculateDisplayCharacteristics(){
+        this.finalDisplaySize = this.getRoundedUsableDisplaySize();
         this.calculateOffsets();
     }
 
-    private void getSmallerDisplaySize() {
+    private int getRoundedUsableDisplaySize(){
+        int lessDisplaySize = this.getSmallerDisplaySize();
+        int usableDisplaySize = this.getUsableDisplaySize(lessDisplaySize);
+        return this.roundUsableDisplaySize(usableDisplaySize);
+    }
+
+    private int getSmallerDisplaySize() {
         this.screenWidth = Gdx.graphics.getWidth();
         this.screenHeight = Gdx.graphics.getHeight();
-        this.smallerDimension =  Math.min(this.screenWidth, this.screenHeight);
+        return (int) Math.min(this.screenWidth, this.screenHeight);
+    }
+
+    private int getUsableDisplaySize(int displaySize){
+        return (int) (displaySize * MyGdxGame.USABLE_PERCENT);
+    }
+
+    private int roundUsableDisplaySize(int displaySize){
+        return (int) (MyGdxGame.PIECES_PER_AXIS*(Math.floor(displaySize/MyGdxGame.PIECES_PER_AXIS)));
     }
 
     private void calculateOffsets(){
         this.calculateMainOffsets();
-        this.calculateGameOffsets();
     }
 
     private void calculateMainOffsets(){
-        this.mainXOffset = (this.screenWidth - this.smallerDimension) / 2;
-        this.mainYOffset = (this.screenHeight - this.smallerDimension) / 2;
+        this.finalLeftOffsetX = (this.screenWidth - this.finalDisplaySize) / 2;
+        this.finalDownOffsetY = (this.screenHeight - this.finalDisplaySize) / 2;
     }
 
-    private void calculateGameOffsets(){
-        this.gameXOffset = this.smallerDimension * .05f;
-        this.gameYOffset = this.smallerDimension * .05f;
-    }
-
-
-    private float getCellDimesions() {
-        return (this.smallerDimension - this.gameXOffset) / 20;
+    private int getCellDimesions() {
+        return this.finalDisplaySize / MyGdxGame.PIECES_PER_AXIS;
     }
 
     @Override
