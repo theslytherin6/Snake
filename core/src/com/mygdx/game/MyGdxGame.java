@@ -23,13 +23,19 @@ public class MyGdxGame extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
         this.getScreenProperties();
-//        mainController = Controller.create(getCellDimesions(), this.initXPositionGameDisplay, this.initYPositionGameDisplay,
-//                                            this.smallerDimension, this.smallerDimension);
-        mainController = Controller.create(getCellDimesions(), this.mainXOffset + this.gameXOffset,
-                                                                this.mainYOffset + this.gameYOffset,
-                                                                this.smallerDimension - 2 * this.gameXOffset,
-                                                                this.smallerDimension - 2 * this.gameYOffset,
-                                                                this.batch);
+
+        int finalOffsetX = (int) (this.mainXOffset + this.gameYOffset);
+        int finalOffsetY = (int) (this.mainYOffset + this.gameYOffset);
+        int finalDisplayX = (int) (20*(Math.floor((this.smallerDimension - 2 * this.gameXOffset)/20)));
+        int finalDisplayY = finalDisplayX;
+        int finalCellDimentions = finalDisplayX/20;
+
+        mainController = Controller.create(finalCellDimentions,
+                finalOffsetX,
+                finalOffsetY,
+                finalDisplayX,
+                finalDisplayY,
+                this.batch);
     }
 
     private void getScreenProperties(){
@@ -57,6 +63,7 @@ public class MyGdxGame extends ApplicationAdapter {
         this.gameXOffset = this.smallerDimension * .05f;
         this.gameYOffset = this.smallerDimension * .05f;
     }
+
 
     private float getCellDimesions() {
         return (this.smallerDimension - this.gameXOffset) / 20;

@@ -61,7 +61,10 @@ public class Controller {
      * @param newDisplayHeight  Height of the display
      */
     private Controller(float cellWidth, float newXOffset, float newYOffset, float newDisplayWidth, float newDisplayHeight, SpriteBatch spriteBatch) {
-        this.snake = new Snake(newXOffset,newYOffset,newDisplayWidth,newDisplayHeight, this.INIT_SNAKE_DIRECTION, cellWidth);
+        System.out.println("Debug Information -------------------");
+        System.out.printf("width: %s\nX Offset: %s\nY Offset: %s\nDisplay Width: %s\n" +
+                "Display Height: %s\n", cellWidth, newXOffset, newYOffset, newDisplayWidth, newDisplayHeight);
+        this.snake = new Snake(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight, this.INIT_SNAKE_DIRECTION, cellWidth);
         this.keyBoardEmulator = new KeyBoardEmulator(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight);
         this.displayWidth = newDisplayWidth;
         this.displayHeight = newDisplayHeight;
@@ -120,8 +123,6 @@ public class Controller {
         this.renderPlaying();
         this.touchHandler();
         this.snakeHandler();
-
-        // if(se ha chocado) --> this.controllerVG= gameStates.GAME_END;
     }
 
     /**
@@ -152,6 +153,8 @@ public class Controller {
      * Method responsible of the movement of the Snake
      */
     private void snakeHandler() {
+        if (this.snake.isDead())
+            this.controllerVG = gameStates.GAME_END;
         this.counter++;
         if (this.counter == this.FRAMES_TO_SNAKE_GROWS) {
             this.growSnake();
@@ -163,7 +166,6 @@ public class Controller {
     }
 
     private void gameFinished(){
-        System.out.println("aqui");
         this.spriteBatch.begin();
         this.spriteBatch.draw(this.endBackground, this.xOffset, this.yOffset, this.displayWidth, this.displayHeight);
         this.spriteBatch.end();

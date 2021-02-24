@@ -60,6 +60,7 @@ public class Snake {
      * Method to move the Snake
      */
     public void move() {
+        System.out.printf("X: %s, Y:%s\n", this.pieceList.getFirst().getAbsoluteCol(), this.pieceList.getFirst().getAbsoluteRow());
         this.grow();
         this.pieceList.removeLast();
     }
@@ -111,7 +112,7 @@ public class Snake {
      * @return true if the movement is not opposite
      */
     private boolean isMovementValid(Directions movement) {
-        return this.lastMovement.value + movement.value != 0;
+        return movement != null && this.lastMovement.value + movement.value != 0;
     }
 
     /**
@@ -141,15 +142,17 @@ public class Snake {
      */
     public boolean isDead() {
 
-        //method to check if the snake is dead
+        Piece head = this.pieceList.getFirst();
 
         for (int i=5;i<pieceList.size();i++) {
-            if (pieceList.getFirst().isColliding(pieceList.get(i))) return true;
+            if (head.isColliding(pieceList.get(i)))
+                return true;
         }
 
-       if((pieceList.getFirst().getAbsoluteCol() < this.GAME_DISPLAY_INITIAL_X || pieceList.getFirst().getAbsoluteCol() < this.GAME_DISPLAY_FINAL_X) && (pieceList.getFirst().getAbsoluteRow() < this.GAME_DISPLAY_INITIAL_Y || pieceList.getFirst().getAbsoluteRow() < this.GAME_DISPLAY_FINAL_Y)) return true;
-
-       return false;
+        return !(this.GAME_DISPLAY_INITIAL_X < head.getAbsoluteCol() &&
+               head.getAbsoluteCol() < this.GAME_DISPLAY_FINAL_X + this.GAME_DISPLAY_INITIAL_X &&
+               this.GAME_DISPLAY_INITIAL_Y < head.getAbsoluteRow() &&
+               head.getAbsoluteRow() < this.GAME_DISPLAY_FINAL_Y + this.GAME_DISPLAY_INITIAL_Y);
     }
 
 
