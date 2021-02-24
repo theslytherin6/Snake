@@ -41,6 +41,7 @@ public class Controller {
     private KeyBoardEmulator keyBoardEmulator;
     private SpriteBatch spriteBatch;
     private Sound movementSound;
+    private Sound growSound;
     private Music backgroundMusic;
 
     public enum gameStates{
@@ -81,6 +82,7 @@ public class Controller {
         this.controllerVG = gameStates.GAME_START;
         this.spriteBatch = spriteBatch;
         this.movementSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/movement.mp3"));
+        this.growSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/grow.mp3"));
         this.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Sounds/backgroundMusic.mp3"));
     }
 
@@ -170,7 +172,7 @@ public class Controller {
         if (this.framesCounter == Controller.FRAMES_TO_SNAKE_GROWS) {
             this.growSnake();
             this.framesCounter = 0;
-            this.movementSound.play();
+            this.growSound.play();
         } else if (this.framesCounter % Controller.FRAMES_TO_SNAKE_MOVES == 0) {
             this.moveSnake();
             this.movementSound.play();
@@ -203,6 +205,7 @@ public class Controller {
     public void dispose() {
         this.snake.dispose();
         this.movementSound.dispose();
+        this.growSound.dispose();
         this.backgroundMusic.dispose();
     }
 }
