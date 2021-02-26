@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import java.util.LinkedList;
 
 public class Snake {
@@ -16,15 +15,18 @@ public class Snake {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    private final static int INIT_RELATIVE_COL=10;
+    private final static int INIT_RELATIVE_ROW=10;
+    private final static String IMAGE = "Snake.png";
+
+    private final float GAME_DISPLAY_INITIAL_X;
+    private final float GAME_DISPLAY_INITIAL_Y;
+    private final float GAME_DISPLAY_FINAL_X;
+    private final float GAME_DISPLAY_FINAL_Y;
+
     private LinkedList<Piece> pieceList;
-    private Directions lastMovement;
-    private final String IMAGE = "Snake.png";
-    private final float GAME_DISPLAY_INITIAL_X,
-                        GAME_DISPLAY_INITIAL_Y,
-                        GAME_DISPLAY_FINAL_X,
-                        GAME_DISPLAY_FINAL_Y;
-    private final int INIT_RELATIVE_COL=10,
-                      INIT_RELATIVE_ROW=10;
+    private Directions currentMovement;
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,9 +48,11 @@ public class Snake {
      */
     public Snake(float newGameDisplayInitialX,float newGameDisplayInitialY,float newGameDisplayFinalX,float newGameDisplayFinalY ,Directions initDirection, float width) {
         this.pieceList = new LinkedList<>();
-        Piece piece = new Piece(width*this.INIT_RELATIVE_COL+newGameDisplayInitialX, width*this.INIT_RELATIVE_ROW+newGameDisplayInitialY, width, this.IMAGE);
+        Piece piece = new Piece(width*Snake.INIT_RELATIVE_COL+newGameDisplayInitialX,
+                               width*Snake.INIT_RELATIVE_ROW+newGameDisplayInitialY,
+                                              width, Snake.IMAGE);
         this.pieceList.add(piece);
-        this.lastMovement = initDirection;
+        this.currentMovement = initDirection;
         this.GAME_DISPLAY_FINAL_X = newGameDisplayFinalX;
         this.GAME_DISPLAY_FINAL_Y = newGameDisplayFinalY;
         this.GAME_DISPLAY_INITIAL_X = newGameDisplayInitialX;
@@ -60,7 +64,6 @@ public class Snake {
      * Method to move the Snake
      */
     public void move() {
-        System.out.printf("X: %s, Y:%s\n", this.pieceList.getFirst().getAbsoluteCol(), this.pieceList.getFirst().getAbsoluteRow());
         this.grow();
         this.pieceList.removeLast();
     }
@@ -79,7 +82,7 @@ public class Snake {
      * @param pieceToMove piece that it's going to move
      */
     private void moveSpecificPiece(Piece pieceToMove) {
-        switch (lastMovement) {
+        switch (currentMovement) {
             case UP:
                 pieceToMove.incrementRow();
                 break;
@@ -93,7 +96,7 @@ public class Snake {
                 pieceToMove.incrementCol();
                 break;
             default:
-                throw new IllegalArgumentException("BUM!");
+                throw new IllegalArgumentException("Something was wrong");
         }
     }
 
@@ -103,7 +106,7 @@ public class Snake {
      */
     public void changeMovement(Directions movement) {
         if (this.isMovementValid(movement))
-            this.lastMovement = movement;
+            this.currentMovement = movement;
     }
 
     /**
@@ -112,7 +115,7 @@ public class Snake {
      * @return true if the movement is not opposite
      */
     private boolean isMovementValid(Directions movement) {
-        return movement != null && this.lastMovement.value + movement.value != 0;
+        return movement != null && this.currentMovement.value + movement.value != 0;
     }
 
     /**
@@ -129,7 +132,6 @@ public class Snake {
      * Method to dispose the piece list from snake
      */
     public void dispose() {
-
         for (Piece piece : this.pieceList) {
             piece.dispose();
         }
@@ -141,16 +143,22 @@ public class Snake {
      * @return true if the piece can move
      */
     public boolean isDead() {
-
         Piece head = this.pieceList.getFirst();
+        return this.isTouchingHimSelf(head) || this.isOutOfRange(head);
+    }
+
+    private boolean isTouchingHimSelf(Piece head){
         for (int i=4;i<pieceList.size();i++) {
             if (head.isColliding(pieceList.get(i)))
                 return true;
         }
+        return false;
+    }
 
-        return !(this.GAME_DISPLAY_INITIAL_X < head.getAbsoluteCol() &&
-               head.getAbsoluteCol() < this.GAME_DISPLAY_FINAL_X + this.GAME_DISPLAY_INITIAL_X &&
-               this.GAME_DISPLAY_INITIAL_Y < head.getAbsoluteRow() &&
-               head.getAbsoluteRow() < this.GAME_DISPLAY_FINAL_Y + this.GAME_DISPLAY_INITIAL_Y);
+    private boolean isOutOfRange(Piece head){
+        return !(this.GAME_DISPLAY_INITIAL_X <= head.getAbsoluteCol() &&
+                head.getAbsoluteCol() < this.GAME_DISPLAY_FINAL_X + this.GAME_DISPLAY_INITIAL_X &&
+                this.GAME_DISPLAY_INITIAL_Y <= head.getAbsoluteRow() &&
+                head.getAbsoluteRow() < this.GAME_DISPLAY_FINAL_Y + this.GAME_DISPLAY_INITIAL_Y);
     }
 }
