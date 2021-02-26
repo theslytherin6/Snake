@@ -15,11 +15,12 @@ public class Piece {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private float width;
-    private float absoluteCol;
-    private float absoluteRow;
+    private final int width;
+    private final String image;
+
+    private int absoluteCol;
+    private int absoluteRow;
     private Texture texture;
-    private String image;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +39,7 @@ public class Piece {
      * @param newRelativeCol X relative position that piece it's going to have
      * @param newImage       route of the sprite to loading
      */
-    public Piece(float newAbsoluteCol, float newAbsoluteRow, float width, String newImage) {
+    public Piece(int newAbsoluteCol, int newAbsoluteRow, int width, String newImage) {
         this.absoluteCol = newAbsoluteCol;
         this.absoluteRow = newAbsoluteRow;
         this.width = width;
