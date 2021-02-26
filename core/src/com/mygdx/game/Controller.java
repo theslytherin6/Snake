@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -40,6 +41,8 @@ public class Controller {
     private KeyBoardEmulator keyBoardEmulator;
     private SpriteBatch spriteBatch;
     private Sound movementSound;
+    private Sound growSound;
+    private Music backgroundMusic;
 
     public enum gameStates{
         GAME_START,
@@ -73,6 +76,8 @@ public class Controller {
         this.controllerVG = gameStates.GAME_START;
         this.spriteBatch = spriteBatch;
         this.movementSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/movement.mp3"));
+        this.growSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/grow.mp3"));
+        this.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Sounds/backgroundMusic.mp3"));
     }
 
     private void setDisplaySetting(int newXOffset, int newYOffset, int newDisplayWidth, int newDisplayHeight){
@@ -118,8 +123,10 @@ public class Controller {
         this.draw(Controller.START_BACKGROUND, this.xOffset, this.yOffset, this.displayWidth, displayHeight);
 
         boolean screenTouched = Gdx.input.justTouched();
-        if (screenTouched)
+        if (screenTouched) {
             this.controllerVG = gameStates.PLAYING;
+            this.backgroundMusic.play();
+        }
     }
 
     private void draw(Texture texture2Draw, int initXPosition, int initYPosition, int width, int height){
@@ -160,8 +167,10 @@ public class Controller {
      * Method responsible of the movement of the Snake
      */
     private void snakeHandler() {
-        if (this.snake.isDead())
+        if (this.snake.isDead()) {
             this.controllerVG = gameStates.GAME_END;
+            this.backgroundMusic.stop();
+        }
         else
             this.snakeMove();
     }
@@ -171,10 +180,10 @@ public class Controller {
         if (this.framesCounter == Controller.FRAMES_TO_SNAKE_GROWS) {
             this.growSnake();
             this.framesCounter = 0;
-            movementSound.play();
+            this.growSound.play();
         } else if (this.framesCounter % Controller.FRAMES_TO_SNAKE_MOVES == 0) {
             this.moveSnake();
-            movementSound.play();
+            this.movementSound.play();
         }
     }
 
@@ -203,5 +212,7 @@ public class Controller {
     public void dispose() {
         this.snake.dispose();
         this.movementSound.dispose();
+        this.growSound.dispose();
+        this.backgroundMusic.dispose();
     }
 }
