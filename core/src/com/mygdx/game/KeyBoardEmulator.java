@@ -14,18 +14,19 @@ public class KeyBoardEmulator {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private float displayWidth,
-                displayHeight,
-                leftLimit,
-                rightLimit,
-                topLimit,
-                botLimit,
-                yOffset,
-                xOffset;
+    private static final float MARGIN_LIMIT = .3f;
 
+    private final int displayWidth;
+    private final int displayHeight;
+    private final int yOffset;
+    private final int xOffset;
+
+    private float leftLimit;
+    private float rightLimit;
+    private float topLimit;
+    private float botLimit;
     private Directions moveSelected;
 
-    private static final float MARGIN_LIMIT = .3f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,19 +42,13 @@ public class KeyBoardEmulator {
      * @param DisplayWidth display width size
      * @param displayHeight display height size
      */
-    public KeyBoardEmulator(float newXOffset, float newYOffset, float newDisplayWidth, float newDisplayHeight){
+    public KeyBoardEmulator(int newXOffset, int newYOffset, int newDisplayWidth, int newDisplayHeight){
         this.displayHeight = newDisplayHeight;
         this.displayWidth = newDisplayWidth;
         this.yOffset = newYOffset;
         this.xOffset = newXOffset;
         this.calculateLimits();
         this.moveSelected = null;
-        // debugging prints
-        System.out.println("LIMITS");
-        System.out.println("T:" + this.topLimit);
-        System.out.println("D:" + this.botLimit);
-        System.out.println("L:" + this.leftLimit);
-        System.out.println("R:" + this.rightLimit);
     }
 
     /**
@@ -74,7 +69,6 @@ public class KeyBoardEmulator {
         return 1 - KeyBoardEmulator.MARGIN_LIMIT;
     }
 
-
     /**
      * Method to translate a Cartesian position to a known variable
      * @param positionX the X position from the object to be emulated
@@ -83,9 +77,6 @@ public class KeyBoardEmulator {
     public void emulate(int positionX, int positionY){
         this.checkAxisX(positionX);
         this.checkAxisY(positionY);
-        System.out.println(positionX);
-        System.out.println(positionY);
-        System.out.println("--");
     }
 
     /**
@@ -97,6 +88,24 @@ public class KeyBoardEmulator {
             this.moveSelected = LEFT;
         if (this.touchOnRightSite(position))
             this.moveSelected = RIGHT;
+    }
+
+    /**
+     * Metho to check if the position given is between limits
+     * @param position X position to be evaluated
+     * @return true if and only if the position is in the limits
+     */
+    private boolean touchOnLeftSite(int position){
+        return this.xOffset <= position && position <= this.leftLimit;
+    }
+
+    /**
+     * Metho to check if the position given is between limits
+     * @param position X position to be evaluated
+     * @return true if and only if the position is in the limits
+     */
+    private boolean touchOnRightSite(int position){
+        return this.rightLimit <= position && position <= this.xOffset + this.displayWidth;
     }
 
     /**
@@ -116,8 +125,6 @@ public class KeyBoardEmulator {
      * @return true if and only if the position is in the limits
      */
     private boolean touchOnTopSite(int position){
-        System.out.print("Top: ");
-        System.out.println(this.yOffset + " " + position + " " + this.topLimit);
         return this.yOffset <= position && position <= this.topLimit;
     }
 
@@ -127,31 +134,7 @@ public class KeyBoardEmulator {
      * @return true if and only if the position is in the limits
      */
     private boolean touchOnBotSite(int position){
-        System.out.print("bot: ");
-        System.out.println(this.botLimit + " " + position + " " + this.displayHeight);
         return this.botLimit <= position && position <= this.yOffset + this.displayHeight;
-    }
-
-    /**
-     * Metho to check if the position given is between limits
-     * @param position X position to be evaluated
-     * @return true if and only if the position is in the limits
-     */
-    private boolean touchOnLeftSite(int position){
-        System.out.print("Left: ");
-        System.out.println(this.xOffset + " " + position + " " + this.leftLimit);
-        return this.xOffset <= position && position <= this.leftLimit;
-    }
-
-    /**
-     * Metho to check if the position given is between limits
-     * @param position X position to be evaluated
-     * @return true if and only if the position is in the limits
-     */
-    private boolean touchOnRightSite(int position){
-        System.out.print("Rigth: ");
-        System.out.println(this.rightLimit + " " + position + " " + this.displayWidth);
-        return this.rightLimit <= position && position <= this.xOffset + this.displayWidth;
     }
 
     /**
