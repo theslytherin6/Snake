@@ -63,7 +63,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private int getSmallerDisplaySize() {
         this.screenWidth = Gdx.graphics.getWidth();
         this.screenHeight = Gdx.graphics.getHeight();
-        return (int) Math.min(this.screenWidth, this.screenHeight);
+        return Math.min(this.screenWidth, this.screenHeight);
     }
 
     private int getUsableDisplaySize(int displaySize){
@@ -71,7 +71,7 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     private int roundUsableDisplaySize(int displaySize){
-        return (int) (MyGdxGame.PIECES_PER_AXIS*(Math.floor(displaySize/MyGdxGame.PIECES_PER_AXIS)));
+        return (int) (MyGdxGame.PIECES_PER_AXIS*(Math.floor((float)displaySize/MyGdxGame.PIECES_PER_AXIS)));
     }
 
     private void calculateOffsets(){
