@@ -1,43 +1,64 @@
 package com.mygdx.game;
 
+import static com.mygdx.game.Directions.*;
+
 public class KeyBoardEmulator {
 
-    private int displayWidth,
-                displayHeight,
-                leftLimit,
-                rightLimit,
-                topLimit,
-                botLimit;
-
-    private int moveSelected;
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////
+////// STATE
+//////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private static final float MARGIN_LIMIT = .3f;
 
+    private final int displayWidth;
+    private final int displayHeight;
+    private final int yOffset;
+    private final int xOffset;
+
+    private float leftLimit;
+    private float rightLimit;
+    private float topLimit;
+    private float botLimit;
+    private Directions moveSelected;
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////
+////// BEHAVIOR//CONDUCT
+//////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * @param displayWidth display width size
+     * @param DisplayWidth display width size
      * @param displayHeight display height size
      */
-    public KeyBoardEmulator(int displayWidth, int displayHeight){
-        this.displayHeight = displayHeight;
-        this.displayWidth = displayWidth;
+    public KeyBoardEmulator(int newXOffset, int newYOffset, int newDisplayWidth, int newDisplayHeight){
+        this.displayHeight = newDisplayHeight;
+        this.displayWidth = newDisplayWidth;
+        this.yOffset = newYOffset;
+        this.xOffset = newXOffset;
         this.calculateLimits();
-        this.moveSelected = 0;
-        // debugging prints
-        System.out.println("LIMITS");
-        System.out.println("T:" + this.topLimit);
-        System.out.println("D:" + this.botLimit);
-        System.out.println("L:" + this.leftLimit);
-        System.out.println("R:" + this.rightLimit);
+        this.moveSelected = null;
     }
 
     /**
      * Method for calculate buttons limits
      */
     private void calculateLimits(){
-        this.leftLimit = (int) (this.displayWidth * KeyBoardEmulator.MARGIN_LIMIT);
-        this.rightLimit = (int) (this.displayWidth * this.oppositePercentSide());
-        this.topLimit = (int) (this.displayHeight * KeyBoardEmulator.MARGIN_LIMIT);
-        this.botLimit = (int) (this.displayHeight * this.oppositePercentSide());
+        this.leftLimit = this.xOffset + this.displayWidth * KeyBoardEmulator.MARGIN_LIMIT;
+        this.rightLimit = this.xOffset + this.displayWidth * this.oppositePercentSide();
+        this.topLimit =  this.yOffset + this.displayHeight * KeyBoardEmulator.MARGIN_LIMIT;
+        this.botLimit =  this.yOffset + this.displayHeight * this.oppositePercentSide();
     }
 
     /**
@@ -47,7 +68,6 @@ public class KeyBoardEmulator {
     private float oppositePercentSide(){
         return 1 - KeyBoardEmulator.MARGIN_LIMIT;
     }
-
 
     /**
      * Method to translate a Cartesian position to a known variable
@@ -65,38 +85,9 @@ public class KeyBoardEmulator {
      */
     private void checkAxisX(int position){
         if (this.touchOnLeftSite(position))
-            this.moveSelected = Snake.LEFT;
+            this.moveSelected = LEFT;
         if (this.touchOnRightSite(position))
-            this.moveSelected = Snake.RIGHT;
-    }
-
-    /**
-     * Method to check if Y position is touching simulated button
-     * @param position Y axis position to be evaluated
-     */
-    private void checkAxisY(int position){
-        if (this.touchOnTopSite(position))
-            this.moveSelected = Snake.UP;
-        if (this.touchOnBotSite(position))
-            this.moveSelected = Snake.DOWN;
-    }
-
-    /**
-     * Metho to check if the position given is between limits
-     * @param position Y position to be evaluated
-     * @return true if and only if the position is in the limits
-     */
-    private boolean touchOnTopSite(int position){
-        return 0 <= position && position <= this.topLimit;
-    }
-
-    /**
-     * Metho to check if the position given is between limits
-     * @param position Y position to be evaluated
-     * @return true if and only if the position is in the limits
-     */
-    private boolean touchOnBotSite(int position){
-        return this.botLimit <= position && position <= this.displayHeight;
+            this.moveSelected = RIGHT;
     }
 
     /**
@@ -105,7 +96,7 @@ public class KeyBoardEmulator {
      * @return true if and only if the position is in the limits
      */
     private boolean touchOnLeftSite(int position){
-        return 0 <= position && position <= this.leftLimit;
+        return this.xOffset <= position && position <= this.leftLimit;
     }
 
     /**
@@ -114,14 +105,43 @@ public class KeyBoardEmulator {
      * @return true if and only if the position is in the limits
      */
     private boolean touchOnRightSite(int position){
-        return this.rightLimit <= position && position <= this.displayWidth;
+        return this.rightLimit <= position && position <= this.xOffset + this.displayWidth;
+    }
+
+    /**
+     * Method to check if Y position is touching simulated button
+     * @param position Y axis position to be evaluated
+     */
+    private void checkAxisY(int position){
+        if (this.touchOnTopSite(position))
+            this.moveSelected = UP;
+        if (this.touchOnBotSite(position))
+            this.moveSelected = DOWN;
+    }
+
+    /**
+     * Metho to check if the position given is between limits
+     * @param position Y position to be evaluated
+     * @return true if and only if the position is in the limits
+     */
+    private boolean touchOnTopSite(int position){
+        return this.yOffset <= position && position <= this.topLimit;
+    }
+
+    /**
+     * Metho to check if the position given is between limits
+     * @param position Y position to be evaluated
+     * @return true if and only if the position is in the limits
+     */
+    private boolean touchOnBotSite(int position){
+        return this.botLimit <= position && position <= this.yOffset + this.displayHeight;
     }
 
     /**
      * Getter for the attribute moveSelected
      * @return snake move code
      */
-    public int getMoveSelected(){
+    public Directions getMoveSelected(){
         return this.moveSelected;
     }
 }

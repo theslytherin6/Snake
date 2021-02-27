@@ -15,11 +15,12 @@ public class Piece {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private float width;
-    private int relativeCol;
-    private int relativeRow;
+    private final int width;
+    private final String image;
+
+    private int absoluteCol;
+    private int absoluteRow;
     private Texture texture;
-    private String image;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,9 +39,9 @@ public class Piece {
      * @param newRelativeCol X relative position that piece it's going to have
      * @param newImage       route of the sprite to loading
      */
-    public Piece(int newRelativeCol, int newRelativeRow, float width, String newImage) {
-        this.relativeCol = newRelativeCol;
-        this.relativeRow = newRelativeRow;
+    public Piece(int newAbsoluteCol, int newAbsoluteRow, int width, String newImage) {
+        this.absoluteCol = newAbsoluteCol;
+        this.absoluteRow = newAbsoluteRow;
         this.width = width;
         this.texture = new Texture(newImage);
         this.image = newImage;
@@ -52,24 +53,8 @@ public class Piece {
      */
     public void render(SpriteBatch spriteBatch) {
         spriteBatch.begin();
-        spriteBatch.draw(this.texture, this.absoluteCol(), this.absoluteRow(), this.width, this.width);
+        spriteBatch.draw(this.texture, this.absoluteCol, this.absoluteRow, this.width, this.width);
         spriteBatch.end();
-    }
-
-    /**
-     * Method to get the absolute position in pixel of the abscissa X
-     * @return absolute position in pixel of the abscissa X
-     */
-    private float absoluteCol() {
-        return this.relativeCol * this.width;
-    }
-
-    /**
-     * Method to get the absolute position in pixel of the abscissa Y
-     * @return absolute position in pixel of the abscissa Y
-     */
-    private float absoluteRow() {
-        return this.relativeRow * this.width;
     }
 
     /**
@@ -83,51 +68,51 @@ public class Piece {
      * Method getter for the atribute position X
      * @return Acual position from the piece
      */
-    public int getRelativeCol() {
-        return this.relativeCol;
+    public float getAbsoluteCol() {
+        return this.absoluteCol;
     }
 
     /**
      * Method getter for the atribute position Y
      * @return Acual position Y from the piece
      */
-    public int getRelativeRow() {
-        return this.relativeRow;
+    public float getAbsoluteRow() {
+        return this.absoluteRow;
     }
 
     /**
      * Rapid Method to increment X position
      */
     public void incrementCol() {
-        this.relativeCol++;
+        this.absoluteCol+=width;
     }
 
     /**
      * Rapid Method to decrement X position
      */
     public void decrementCol() {
-        this.relativeCol--;
+        this.absoluteCol-=width;
     }
 
     /**
      * Rapid Method to increment Y position
      */
     public void incrementRow() {
-        this.relativeRow++;
+        this.absoluteRow+=width;
     }
 
     /**
      * Rapid Method to decrement Y position
      */
     public void decrementRow() {
-        this.relativeRow--;
+        this.absoluteRow-=width;
     }
 
     /**
      * Method to initialize the colider
      */
     public boolean isColliding(Piece piece) {
-        return this.relativeRow == piece.getRelativeRow() && this.relativeCol == piece.getRelativeCol();
+        return this.absoluteRow == piece.getAbsoluteRow() && this.absoluteCol == piece.getAbsoluteCol();
     }
 
     /**
@@ -136,7 +121,7 @@ public class Piece {
      * @return a instance of the clone piece
      */
     public Piece clone() {
-        return new Piece(this.relativeCol, this.relativeRow, this.width, this.image);
+        return new Piece(this.absoluteCol, this.absoluteRow, this.width, this.image);
     }
 
 }
