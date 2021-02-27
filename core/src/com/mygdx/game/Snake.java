@@ -17,7 +17,7 @@ public class Snake {
 
     private final static int INIT_RELATIVE_COL=10;
     private final static int INIT_RELATIVE_ROW=10;
-    private final static String IMAGE = "Snake.png";
+    private final static String IMAGE = "snake.png";
 
     private final float GAME_DISPLAY_INITIAL_X;
     private final float GAME_DISPLAY_INITIAL_Y;
@@ -26,6 +26,7 @@ public class Snake {
 
     private LinkedList<Piece> pieceList;
     private Directions currentMovement;
+    private int width;
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,13 +45,14 @@ public class Snake {
      * @param initRelativeCol  initial relative X position
      * @param initRelativeRow  initial relative Y position
      * @param initDirection    initial snake direction
-     * @param width            width for every Piece
+     * @param newWidth            width for every Piece
      */
-    public Snake(int newGameDisplayInitialX, int newGameDisplayInitialY, int newGameDisplayFinalX, int newGameDisplayFinalY, Directions initDirection, int width) {
+    public Snake(int newGameDisplayInitialX, int newGameDisplayInitialY, int newGameDisplayFinalX, int newGameDisplayFinalY, Directions initDirection, int newWidth) {
         this.pieceList = new LinkedList<>();
-        Piece piece = new Piece(width*Snake.INIT_RELATIVE_COL+newGameDisplayInitialX,
-                                width*Snake.INIT_RELATIVE_ROW+newGameDisplayInitialY,
-                                 width, Snake.IMAGE);
+        Piece piece = new Piece(newWidth*Snake.INIT_RELATIVE_COL+newGameDisplayInitialX,
+                                newWidth*Snake.INIT_RELATIVE_ROW+newGameDisplayInitialY,
+                                 newWidth, Snake.IMAGE);
+        this.width = newWidth;
         this.pieceList.add(piece);
         this.currentMovement = initDirection;
         this.GAME_DISPLAY_FINAL_X = newGameDisplayFinalX;
@@ -160,5 +162,9 @@ public class Snake {
                 head.getAbsoluteCol() < this.GAME_DISPLAY_FINAL_X + this.GAME_DISPLAY_INITIAL_X &&
                 this.GAME_DISPLAY_INITIAL_Y <= head.getAbsoluteRow() &&
                 head.getAbsoluteRow() < this.GAME_DISPLAY_FINAL_Y + this.GAME_DISPLAY_INITIAL_Y);
+    }
+
+    public int getCellWidth(){
+        return this.width;
     }
 }
