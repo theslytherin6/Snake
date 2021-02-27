@@ -180,14 +180,22 @@ public class Controller {
 
     private void snakeMove(){
         this.framesCounter++;
-        if (this.framesCounter == Controller.FRAMES_TO_SNAKE_GROWS) {
+        if (this.shouldGrow()) {
             this.growSnake();
             this.framesCounter = 0;
-            this.GROW_SOUND.play();
-        } else if (this.framesCounter % Controller.FRAMES_TO_SNAKE_MOVES == 0) {
+            this.GROW_SOUND.play(.6f);
+        } else if (this.shouldMove()) {
             this.moveSnake();
-            this.GROW_SOUND.play();
+            this.MOVEMENT_SOUND.play();
         }
+    }
+
+    private boolean shouldGrow(){
+        return this.framesCounter == Controller.FRAMES_TO_SNAKE_GROWS;
+    }
+
+    private boolean shouldMove(){
+        return this.framesCounter % Controller.FRAMES_TO_SNAKE_MOVES == 0;
     }
 
     private void gameFinished(){
