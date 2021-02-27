@@ -124,8 +124,7 @@ public class Controller {
     private void startScreen(){
         this.draw(this.START_BACKGROUND, this.xOffset, this.yOffset, this.displayWidth, displayHeight);
 
-        boolean screenTouched = Gdx.input.justTouched();
-        if (screenTouched) {
+        if (Gdx.input.justTouched()) {
             this.controllerVG = gameStates.PLAYING;
             this.BACKGROUND_SOUND.play();
             this.BACKGROUND_SOUND.setVolume(10);
@@ -159,8 +158,7 @@ public class Controller {
      * Method responsible of the touchs on the screen
      */
     private void touchHandler() {
-        boolean screenTouched = Gdx.input.justTouched();
-        if (screenTouched) {
+        if (Gdx.input.justTouched()) {
             this.keyBoardEmulator.emulate(Gdx.input.getX(), Gdx.input.getY());
             this.snake.changeMovement(this.keyBoardEmulator.getMoveSelected());
         }
@@ -180,22 +178,32 @@ public class Controller {
 
     private void snakeMove(){
         this.framesCounter++;
-        if (this.shouldGrow()) {
+        if (this.shouldGrow())
             this.growSnake();
-            this.framesCounter = 0;
-            this.GROW_SOUND.play(.6f);
-        } else if (this.shouldMove()) {
+        else if (this.shouldMove())
             this.moveSnake();
-            this.MOVEMENT_SOUND.play();
-        }
     }
 
     private boolean shouldGrow(){
         return this.framesCounter == Controller.FRAMES_TO_SNAKE_GROWS;
     }
 
+    private void growSnake(){
+        this.snake.grow();
+        this.framesCounter = 0;
+        this.GROW_SOUND.play(.6f);
+    }
+
     private boolean shouldMove(){
         return this.framesCounter % Controller.FRAMES_TO_SNAKE_MOVES == 0;
+    }
+
+    /**
+     * Method to move the pieces of the Snake
+     */
+    private void moveSnake() {
+        this.snake.move();
+        this.MOVEMENT_SOUND.play();
     }
 
     private void gameFinished(){
@@ -204,17 +212,6 @@ public class Controller {
         boolean screenTouched = Gdx.input.justTouched();
         if (screenTouched)
             this.controllerVG = gameStates.GAME_START;
-    }
-
-    /**
-     * Method to move the pieces of the Snake
-     */
-    private void moveSnake() {
-        this.snake.move();
-    }
-
-    private void growSnake() {
-        this.snake.grow();
     }
 
     /**
