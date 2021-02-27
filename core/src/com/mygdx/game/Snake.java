@@ -46,11 +46,11 @@ public class Snake {
      * @param initDirection    initial snake direction
      * @param width            width for every Piece
      */
-    public Snake(float newGameDisplayInitialX,float newGameDisplayInitialY,float newGameDisplayFinalX,float newGameDisplayFinalY ,Directions initDirection, float width) {
+    public Snake(int newGameDisplayInitialX, int newGameDisplayInitialY, int newGameDisplayFinalX, int newGameDisplayFinalY, Directions initDirection, int width) {
         this.pieceList = new LinkedList<>();
         Piece piece = new Piece(width*Snake.INIT_RELATIVE_COL+newGameDisplayInitialX,
-                               width*Snake.INIT_RELATIVE_ROW+newGameDisplayInitialY,
-                                              width, Snake.IMAGE);
+                                width*Snake.INIT_RELATIVE_ROW+newGameDisplayInitialY,
+                                 width, Snake.IMAGE);
         this.pieceList.add(piece);
         this.currentMovement = initDirection;
         this.GAME_DISPLAY_FINAL_X = newGameDisplayFinalX;
