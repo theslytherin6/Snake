@@ -35,8 +35,8 @@ public class Piece {
     /**
      * Builder of piece
      * @param width          width of piece
-     * @param newRelativeRow Y relative position that piece it's going to have
-     * @param newRelativeCol X relative position that piece it's going to have
+     * @param newAbsoluteRow New absolute position Y 
+     * @param newAbsoluteCol New absolute position X
      * @param newImage       route of the sprite to loading
      */
     public Piece(int newAbsoluteCol, int newAbsoluteRow, int width, String newImage) {
