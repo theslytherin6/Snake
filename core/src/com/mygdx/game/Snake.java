@@ -18,6 +18,7 @@ public class Snake {
     private final static int INIT_RELATIVE_COL=10;
     private final static int INIT_RELATIVE_ROW=10;
     private final static String SNAKE_BODY = "snakebody.jpg";
+    private final static String SNAKE_HEAD = "snakehead.jpg";
 
     private final float GAME_DISPLAY_INITIAL_X;
     private final float GAME_DISPLAY_INITIAL_Y;
