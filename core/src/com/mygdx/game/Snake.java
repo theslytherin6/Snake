@@ -140,15 +140,20 @@ public class Snake {
     }
 
     /**
-     * Method to check if a piece can move
+     * Method to check if snake is dead
      *
-     * @return true if the piece can move
+     * @return true if the head is touching himself or is out of range
      */
     public boolean isDead() {
         Piece head = this.pieceList.getFirst();
         return this.isTouchingHimSelf(head) || this.isOutOfRange(head);
     }
-
+    
+    /**
+     * Method to check if the head is touching himself
+     * @param Piece head
+     * @return true if head is touching himself
+     */
     private boolean isTouchingHimSelf(Piece head){
         for (int i=4;i<pieceList.size();i++) {
             if (head.isColliding(pieceList.get(i)))
@@ -156,14 +161,23 @@ public class Snake {
         }
         return false;
     }
-
+    
+    /**
+     * Method to check if the head is out of the range
+     * @param Piece head
+     * @return true if head is out of the range
+     */
     private boolean isOutOfRange(Piece head){
         return !(this.GAME_DISPLAY_INITIAL_X <= head.getAbsoluteCol() &&
                 head.getAbsoluteCol() < this.GAME_DISPLAY_FINAL_X + this.GAME_DISPLAY_INITIAL_X &&
                 this.GAME_DISPLAY_INITIAL_Y <= head.getAbsoluteRow() &&
                 head.getAbsoluteRow() < this.GAME_DISPLAY_FINAL_Y + this.GAME_DISPLAY_INITIAL_Y);
     }
-
+    
+    /**
+     * Method to get cell widht
+     * @return int widht
+     */
     public int getCellWidth(){
         return this.width;
     }
