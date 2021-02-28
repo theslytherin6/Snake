@@ -42,10 +42,12 @@ public class Snake {
     /**
      * Builder of snake
      *
-     * @param initRelativeCol  initial relative X position
-     * @param initRelativeRow  initial relative Y position
-     * @param initDirection    initial snake direction
-     * @param newWidth            width for every Piece
+     * @param newGameDisplayInitialX     initial X position
+     * @param newGameDisplayInitialY     initial Y position
+     * @param newGameDisplayFinalX       final X position
+     * @param newGameDisplayFinalY       final Y position
+     * @param initDirection              initial snake direction
+     * @param newWidth                   width for every Piece
      */
     public Snake(int newGameDisplayInitialX, int newGameDisplayInitialY, int newGameDisplayFinalX, int newGameDisplayFinalY, Directions initDirection, int newWidth) {
         this.pieceList = new LinkedList<>();
@@ -164,7 +166,7 @@ public class Snake {
     
     /**
      * Method to check if the head is out of the range
-     * @param Piece head
+     * @param head
      * @return true if head is out of the range
      */
     private boolean isOutOfRange(Piece head){
