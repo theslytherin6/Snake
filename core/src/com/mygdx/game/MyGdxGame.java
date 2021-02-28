@@ -102,13 +102,6 @@ public class MyGdxGame extends ApplicationAdapter {
      * Method to call another method which calculate the Offsets
      */
     private void calculateOffsets(){
-        this.calculateMainOffsets();
-    }
-
-    /**
-     * Method to calculate the Main Offsets
-     */
-    private void calculateMainOffsets(){
         this.finalLeftOffsetX = (this.screenWidth - this.finalDisplaySize) / 2;
         this.finalDownOffsetY = (this.screenHeight - this.finalDisplaySize) / 2;
     }

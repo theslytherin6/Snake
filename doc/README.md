@@ -19,11 +19,27 @@ Los puestos de trabajo rotan cada semana y van por orden alfabético empezando p
 </ul>
 Lenguaje dentro del proyecto: Ingles.<br>
 
-## Reunión 21/02/2021
+## Reunión 28/02/2021
+
+Se corrigen errores de nivel linguistico, se ha acabado el UML y actualizado el diagrama de objetos.
+
+## Reunión 27/02/2021
+
+Llevabamos mucho tiempo sin hacer ningún pull&request por lo que Basilio se encargó de realizar una
+
+## Reunión 24/02/2021
+
+En el día de hoy hemos visto como funcionaba el juego en nuestros moviles, hemos arreglado bugs, y los diseños de iniciacion y finalizacion han quedado terminados 
+
+## Reunión 23/02/2021
+
+Francisco Lara propuso distintos diseños para el inicio y la finalización del juego, hasta llegar a la conclusion de que ibamos a orientar el juego hacia una estetica espacial.Además de buscar los distintos sonidos que intervienen en el juego 
+
+## Reunión 22/02/2021
 
 El programador Basilio terminó de arreglar los bugs comentados anteriormente ademas de pasar las direcciones de Snake a un enum aparte
 
-## Reunión 20/02/2021
+## Reunión 21/02/2021
 
 Los programadores(Raúl,Sergio y Basilio) se centraron en arreglar los bugs que se provocaban respecto al cambio de movimiento
 
