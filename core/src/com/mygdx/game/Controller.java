@@ -25,6 +25,7 @@ public class Controller {
     private static final String SOUND_MOVEMENT_PATH = "Sounds/movement.mp3";
     private static final String SOUND_GROW_PATH = "Sounds/grow.mp3";
     private static final String SOUND_BACKGROUND_PATH = "Sounds/background.mp3";
+    private static final String SOUND_DIE_PATH = "Sounds/die.mp3";
     private static final Directions INIT_SNAKE_DIRECTION = Directions.RIGHT;
     private static final int FRAMES_TO_SNAKE_MOVES = 60;
     private static final int FRAMES_TO_SNAKE_GROWS = Controller.FRAMES_TO_SNAKE_MOVES * 4;
@@ -37,6 +38,7 @@ public class Controller {
     private final Sound MOVEMENT_SOUND = Gdx.audio.newSound(Gdx.files.internal(Controller.SOUND_MOVEMENT_PATH));
     private final Sound GROW_SOUND = Gdx.audio.newSound(Gdx.files.internal(Controller.SOUND_GROW_PATH));
     private final Music BACKGROUND_SOUND = Gdx.audio.newMusic(Gdx.files.internal(Controller.SOUND_BACKGROUND_PATH));
+    private final Sound DIE_SOUND = Gdx.audio.newSound(Gdx.files.internal(Controller.SOUND_DIE_PATH));
 
     private int displayWidth;
     private int displayHeight;
@@ -74,12 +76,17 @@ public class Controller {
      * @param newDisplayHeight  Height of the display
      */
     private Controller(int cellWidth, int newXOffset, int newYOffset, int newDisplayWidth, int newDisplayHeight, SpriteBatch spriteBatch) {
-        this.snake = new Snake(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight, Controller.INIT_SNAKE_DIRECTION, cellWidth);
         this.keyBoardEmulator = new KeyBoardEmulator(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight);
+        this.newSnake(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight, cellWidth);
         this.setDisplaySetting(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight);
         this.framesCounter = 0;
         this.controllerVG = gameStates.GAME_START;
         this.spriteBatch = spriteBatch;
+    }
+
+    private void newSnake(int xOffset, int yOffset, int displayWidth, int displayHeight, int cellWidth){
+        if (this.snake == null || this.snake.isDead())
+            this.snake = new Snake(xOffset, yOffset, displayWidth, displayHeight, Controller.INIT_SNAKE_DIRECTION, cellWidth);
     }
 
     private void setDisplaySetting(int newXOffset, int newYOffset, int newDisplayWidth, int newDisplayHeight){
@@ -124,8 +131,7 @@ public class Controller {
     private void startScreen(){
         this.draw(this.START_BACKGROUND, this.xOffset, this.yOffset, this.displayWidth, displayHeight);
 
-        boolean screenTouched = Gdx.input.justTouched();
-        if (screenTouched) {
+        if (Gdx.input.justTouched()) {
             this.controllerVG = gameStates.PLAYING;
             this.BACKGROUND_SOUND.play();
             this.BACKGROUND_SOUND.setVolume(10);
@@ -159,8 +165,7 @@ public class Controller {
      * Method responsible of the touchs on the screen
      */
     private void touchHandler() {
-        boolean screenTouched = Gdx.input.justTouched();
-        if (screenTouched) {
+        if (Gdx.input.justTouched()) {
             this.keyBoardEmulator.emulate(Gdx.input.getX(), Gdx.input.getY());
             this.snake.changeMovement(this.keyBoardEmulator.getMoveSelected());
         }
@@ -173,6 +178,7 @@ public class Controller {
         if (this.snake.isDead()) {
             this.controllerVG = gameStates.GAME_END;
             this.BACKGROUND_SOUND.stop();
+            this.DIE_SOUND.play();
         }
         else
             this.snakeMove();
@@ -180,22 +186,24 @@ public class Controller {
 
     private void snakeMove(){
         this.framesCounter++;
-        if (this.framesCounter == Controller.FRAMES_TO_SNAKE_GROWS) {
+        if (this.shouldGrow())
             this.growSnake();
-            this.framesCounter = 0;
-            this.GROW_SOUND.play();
-        } else if (this.framesCounter % Controller.FRAMES_TO_SNAKE_MOVES == 0) {
+        else if (this.shouldMove())
             this.moveSnake();
-            this.GROW_SOUND.play();
-        }
     }
 
-    private void gameFinished(){
-        this.draw(this.END_BACKGROUND, this.xOffset, this.yOffset, this.displayWidth, this.displayHeight);
+    private boolean shouldGrow(){
+        return this.framesCounter == Controller.FRAMES_TO_SNAKE_GROWS;
+    }
 
-        boolean screenTouched = Gdx.input.justTouched();
-        if (screenTouched)
-            this.controllerVG = gameStates.GAME_START;
+    private void growSnake(){
+        this.snake.grow();
+        this.framesCounter = 0;
+        this.GROW_SOUND.play(.6f);
+    }
+
+    private boolean shouldMove(){
+        return this.framesCounter % Controller.FRAMES_TO_SNAKE_MOVES == 0;
     }
 
     /**
@@ -203,10 +211,21 @@ public class Controller {
      */
     private void moveSnake() {
         this.snake.move();
+        this.MOVEMENT_SOUND.play();
     }
 
-    private void growSnake() {
-        this.snake.grow();
+    private void gameFinished(){
+        this.draw(this.END_BACKGROUND, this.xOffset, this.yOffset, this.displayWidth, this.displayHeight);
+
+        boolean screenTouched = Gdx.input.justTouched();
+        if (screenTouched)
+            this.resetGame();
+    }
+
+    private void resetGame(){
+        this.framesCounter = 0;
+        this.newSnake(this.xOffset, this.yOffset, this.displayWidth, this.displayHeight, this.snake.getCellWidth());
+        this.controllerVG = gameStates.GAME_START;
     }
 
     /**
