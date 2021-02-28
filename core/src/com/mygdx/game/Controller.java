@@ -19,7 +19,7 @@ public class Controller {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private static final String GRASS_IMG = "grass.png";
+    private static final String BACKGROUND_IMG = "background.jpg";
     private static final String START_IMG = "start.png";
     private static final String END_IMG = "end.png";
     private static final String SOUND_MOVEMENT_PATH = "Sounds/movement.mp3";
@@ -32,7 +32,7 @@ public class Controller {
 
     private static Controller controller;
 
-    private final Texture GAME_BACKGROUND = new Texture(Controller.GRASS_IMG);
+    private final Texture GAME_BACKGROUND = new Texture(Controller.BACKGROUND_IMG);
     private final Texture START_BACKGROUND = new Texture(Controller.START_IMG);
     private final Texture END_BACKGROUND = new Texture(Controller.END_IMG);
     private final Sound MOVEMENT_SOUND = Gdx.audio.newSound(Gdx.files.internal(Controller.SOUND_MOVEMENT_PATH));

@@ -17,7 +17,7 @@ public class Snake {
 
     private final static int INIT_RELATIVE_COL=10;
     private final static int INIT_RELATIVE_ROW=10;
-    private final static String IMAGE = "snake.png";
+    private final static String SNAKE_BODY = "snakebody.jpg";
 
     private final float GAME_DISPLAY_INITIAL_X;
     private final float GAME_DISPLAY_INITIAL_Y;
@@ -53,7 +53,7 @@ public class Snake {
         this.pieceList = new LinkedList<>();
         Piece piece = new Piece(newWidth*Snake.INIT_RELATIVE_COL+newGameDisplayInitialX,
                                 newWidth*Snake.INIT_RELATIVE_ROW+newGameDisplayInitialY,
-                                 newWidth, Snake.IMAGE);
+                                 newWidth, Snake.SNAKE_BODY);
         this.width = newWidth;
         this.pieceList.add(piece);
         this.currentMovement = initDirection;
