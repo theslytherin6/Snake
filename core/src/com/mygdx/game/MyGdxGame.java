@@ -75,13 +75,10 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     private void calculateOffsets(){
-        this.calculateMainOffsets();
-    }
-
-    private void calculateMainOffsets(){
         this.finalLeftOffsetX = (this.screenWidth - this.finalDisplaySize) / 2;
         this.finalDownOffsetY = (this.screenHeight - this.finalDisplaySize) / 2;
     }
+
 
     private int getCellDimesions() {
         return this.finalDisplaySize / MyGdxGame.PIECES_PER_AXIS;
