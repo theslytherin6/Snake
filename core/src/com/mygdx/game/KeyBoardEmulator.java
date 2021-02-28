@@ -39,8 +39,10 @@ public class KeyBoardEmulator {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param DisplayWidth display width size
-     * @param displayHeight display height size
+     * @param newXOffset Margin in X to center the game screen
+     * @param newYOffset Margin in Y to center the game screen
+     * @param newDisplayWidht new display width size
+     * @param newdisplayHeight new display height size
      */
     public KeyBoardEmulator(int newXOffset, int newYOffset, int newDisplayWidth, int newDisplayHeight){
         this.displayHeight = newDisplayHeight;
@@ -93,16 +95,16 @@ public class KeyBoardEmulator {
     /**
      * Metho to check if the position given is between limits
      * @param position X position to be evaluated
-     * @return true if and only if the position is in the limits
+     * @return true only if the position is in the limits
      */
     private boolean touchOnLeftSite(int position){
         return this.xOffset <= position && position <= this.leftLimit;
     }
 
     /**
-     * Metho to check if the position given is between limits
+     * Method to check if the position given is between limits
      * @param position X position to be evaluated
-     * @return true if and only if the position is in the limits
+     * @return true only if the position is in the limits
      */
     private boolean touchOnRightSite(int position){
         return this.rightLimit <= position && position <= this.xOffset + this.displayWidth;
@@ -120,18 +122,18 @@ public class KeyBoardEmulator {
     }
 
     /**
-     * Metho to check if the position given is between limits
+     * Method to check if the position given is between limits
      * @param position Y position to be evaluated
-     * @return true if and only if the position is in the limits
+     * @return true only if the position is in the limits
      */
     private boolean touchOnTopSite(int position){
         return this.yOffset <= position && position <= this.topLimit;
     }
 
     /**
-     * Metho to check if the position given is between limits
+     * Method to check if the position given is between limits
      * @param position Y position to be evaluated
-     * @return true if and only if the position is in the limits
+     * @return true only if the position is in the limits
      */
     private boolean touchOnBotSite(int position){
         return this.botLimit <= position && position <= this.yOffset + this.displayHeight;
