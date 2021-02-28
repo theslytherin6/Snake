@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import java.util.LinkedList;
 
 public class Snake {
@@ -15,8 +16,8 @@ public class Snake {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private final static int INIT_RELATIVE_COL=10;
-    private final static int INIT_RELATIVE_ROW=10;
+    private final static int INIT_RELATIVE_COL = 10;
+    private final static int INIT_RELATIVE_ROW = 10;
     private final static String SNAKE_BODY = "snakebody.jpg";
     private final static String SNAKE_HEAD = "snakehead.jpg";
 
@@ -43,18 +44,19 @@ public class Snake {
     /**
      * Builder of snake
      *
-     * @param newGameDisplayInitialX     initial X position
-     * @param newGameDisplayInitialY     initial Y position
-     * @param newGameDisplayFinalX       final X position
-     * @param newGameDisplayFinalY       final Y position
-     * @param initDirection              initial snake direction
-     * @param newWidth                   width for every Piece
+     * @param newGameDisplayInitialX initial X position
+     * @param newGameDisplayInitialY initial Y position
+     * @param newGameDisplayFinalX   final X position
+     * @param newGameDisplayFinalY   final Y position
+     * @param initDirection          initial snake direction
+     * @param newWidth               width for every Piece
      */
     public Snake(int newGameDisplayInitialX, int newGameDisplayInitialY, int newGameDisplayFinalX, int newGameDisplayFinalY, Directions initDirection, int newWidth) {
         this.pieceList = new LinkedList<>();
-        Piece piece = new Piece(newWidth*Snake.INIT_RELATIVE_COL+newGameDisplayInitialX,
-                                newWidth*Snake.INIT_RELATIVE_ROW+newGameDisplayInitialY,
-                                 newWidth, Snake.SNAKE_BODY);
+        Piece piece = new Piece(newWidth * Snake.INIT_RELATIVE_COL + newGameDisplayInitialX,
+                newWidth * Snake.INIT_RELATIVE_ROW + newGameDisplayInitialY,
+                newWidth);
+        piece.setHead(true);
         this.width = newWidth;
         this.pieceList.add(piece);
         this.currentMovement = initDirection;
@@ -62,7 +64,6 @@ public class Snake {
         this.GAME_DISPLAY_FINAL_Y = newGameDisplayFinalY;
         this.GAME_DISPLAY_INITIAL_X = newGameDisplayInitialX;
         this.GAME_DISPLAY_INITIAL_Y = newGameDisplayInitialY;
-
     }
 
     /**
@@ -79,11 +80,14 @@ public class Snake {
     public void grow() {
         Piece clonedFirstPiece = this.pieceList.getFirst().clone();
         this.moveSpecificPiece(clonedFirstPiece);
+        this.pieceList.getFirst().setHead(false);
         this.pieceList.addFirst(clonedFirstPiece);
+        this.pieceList.getFirst().setHead(true);
     }
 
     /**
      * Method to move a specific piece
+     *
      * @param pieceToMove piece that it's going to move
      */
     private void moveSpecificPiece(Piece pieceToMove) {
@@ -107,6 +111,7 @@ public class Snake {
 
     /**
      * Method to change the direction of the Snake
+     *
      * @param movement one of the following directions (UP,DOWN,LEFT,RIGHT)
      */
     public void changeMovement(Directions movement) {
@@ -116,6 +121,7 @@ public class Snake {
 
     /**
      * Method to check if the movement is opposite or not
+     *
      * @param movement
      * @return true if the movement is not opposite
      */
@@ -125,6 +131,7 @@ public class Snake {
 
     /**
      * Method to render the piece list from snake
+     *
      * @param spriteBatch
      */
     public void render(SpriteBatch spriteBatch) {
@@ -151,37 +158,40 @@ public class Snake {
         Piece head = this.pieceList.getFirst();
         return this.isTouchingHimSelf(head) || this.isOutOfRange(head);
     }
-    
+
     /**
      * Method to check if the head is touching himself
-     * @param Piece head
+     *
+     * @param head
      * @return true if head is touching himself
      */
-    private boolean isTouchingHimSelf(Piece head){
-        for (int i=4;i<pieceList.size();i++) {
+    private boolean isTouchingHimSelf(Piece head) {
+        for (int i = 4; i < pieceList.size(); i++) {
             if (head.isColliding(pieceList.get(i)))
                 return true;
         }
         return false;
     }
-    
+
     /**
      * Method to check if the head is out of the range
+     *
      * @param head
      * @return true if head is out of the range
      */
-    private boolean isOutOfRange(Piece head){
+    private boolean isOutOfRange(Piece head) {
         return !(this.GAME_DISPLAY_INITIAL_X <= head.getAbsoluteCol() &&
                 head.getAbsoluteCol() < this.GAME_DISPLAY_FINAL_X + this.GAME_DISPLAY_INITIAL_X &&
                 this.GAME_DISPLAY_INITIAL_Y <= head.getAbsoluteRow() &&
                 head.getAbsoluteRow() < this.GAME_DISPLAY_FINAL_Y + this.GAME_DISPLAY_INITIAL_Y);
     }
-    
+
     /**
      * Method to get cell widht
+     *
      * @return int widht
      */
-    public int getCellWidth(){
+    public int getCellWidth() {
         return this.width;
     }
 }

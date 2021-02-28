@@ -31,9 +31,10 @@ public enum Directions {
 
     /**
      * Builder of Directions
+     *
      * @param value Value of the direction where the Snake have to move
      */
-    Directions(int value){
+    Directions(int value) {
         this.value = value;
     }
 }

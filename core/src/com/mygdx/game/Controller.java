@@ -72,12 +72,12 @@ public class Controller {
     /**
      * Builder of Controller
      *
-     * @param cellWidth         Width of the cells where Snake would move
-     * @param newXOffset        Margin in X to center the game screen
-     * @param newYOffset        Margin in Y to center the game screen
-     * @param newDisplayWidth   Width of the display
-     * @param newDisplayHeight  Height of the display
-     * @param spriteBatch       Platform to draw textures
+     * @param cellWidth        Width of the cells where Snake would move
+     * @param newXOffset       Margin in X to center the game screen
+     * @param newYOffset       Margin in Y to center the game screen
+     * @param newDisplayWidth  Width of the display
+     * @param newDisplayHeight Height of the display
+     * @param spriteBatch      Platform to draw textures
      */
     private Controller(int cellWidth, int newXOffset, int newYOffset, int newDisplayWidth, int newDisplayHeight, SpriteBatch spriteBatch) {
         this.keyBoardEmulator = new KeyBoardEmulator(newXOffset, newYOffset, newDisplayWidth, newDisplayHeight);
@@ -105,10 +105,10 @@ public class Controller {
     /**
      * Methos to set the Display Settings
      *
-     * @param newXOffset        Margin in X to center the game screen
-     * @param newYOffset        Margin in Y to center the game screen
-     * @param newDisplayWidth   Width of the display
-     * @param newDisplayHeight  Height of the display
+     * @param newXOffset       Margin in X to center the game screen
+     * @param newYOffset       Margin in Y to center the game screen
+     * @param newDisplayWidth  Width of the display
+     * @param newDisplayHeight Height of the display
      */
     private void setDisplaySetting(int newXOffset, int newYOffset, int newDisplayWidth, int newDisplayHeight) {
         this.displayWidth = newDisplayWidth;
@@ -120,12 +120,12 @@ public class Controller {
     /**
      * Method to create a new Controller
      *
-     * @param cellWidth         Width of the cells where Snake would move
-     * @param newXOffset        Margin in X to center the game screen
-     * @param newYOffset        Margin in Y to center the game screen
-     * @param newDisplayWidth   Width of the display
-     * @param newDisplayHeight  Height of the display
-     * @param spriteBatch       Platform to draw textures
+     * @param cellWidth        Width of the cells where Snake would move
+     * @param newXOffset       Margin in X to center the game screen
+     * @param newYOffset       Margin in Y to center the game screen
+     * @param newDisplayWidth  Width of the display
+     * @param newDisplayHeight Height of the display
+     * @param spriteBatch      Platform to draw textures
      * @return A controller if the there is not other controller
      */
     public static Controller create(int cellWidth, int newXOffset, int newYOffset, int newDisplayWidth, int newDisplayHeight, SpriteBatch spriteBatch) {
@@ -164,7 +164,6 @@ public class Controller {
     }
 
     /**
-     *
      * @param texture2Draw  Texture which will be drawn
      * @param initXPosition Position in X where it would start to paint
      * @param initYPosition Position in Y where it would start to paint
@@ -231,6 +230,7 @@ public class Controller {
 
     /**
      * Method to say when the Snake must grow
+     *
      * @return True if the Snake have to grow
      */
     private boolean mustGrow() {
@@ -248,6 +248,7 @@ public class Controller {
 
     /**
      * Method to say when the Snake must move
+     *
      * @return True if the Snake have to move
      */
     private boolean mustMove() {
