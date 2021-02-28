@@ -58,7 +58,7 @@ public class Piece {
     }
 
     /**
-     * Method to dispose texture from graffic buffer
+     * Method to dispose texture from graphic buffer
      */
     public void dispose() {
         if (this.texture != null) texture.dispose();
@@ -66,7 +66,7 @@ public class Piece {
 
     /**
      * Method getter for the atribute position X
-     * @return Acual position from the piece
+     * @return Current position from the piece
      */
     public float getAbsoluteCol() {
         return this.absoluteCol;
@@ -74,7 +74,7 @@ public class Piece {
 
     /**
      * Method getter for the atribute position Y
-     * @return Acual position Y from the piece
+     * @return Current position Y from the piece
      */
     public float getAbsoluteRow() {
         return this.absoluteRow;
@@ -116,7 +116,7 @@ public class Piece {
     }
 
     /**
-     * Method that return a complete cloning of her self
+     * Method that return a complete cloning of herself
      *
      * @return a instance of the clone piece
      */
