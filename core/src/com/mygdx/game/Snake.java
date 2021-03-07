@@ -52,12 +52,12 @@ public class Snake {
      */
     public Snake(int newGameDisplayInitialX, int newGameDisplayInitialY, int newGameDisplayFinalX, int newGameDisplayFinalY, Directions initDirection, int newWidth) {
         this.pieceList = new LinkedList<>();
+        this.currentMovement = initDirection;
         Piece piece = new Piece(newWidth*Snake.INIT_RELATIVE_COL+newGameDisplayInitialX,
                                 newWidth*Snake.INIT_RELATIVE_ROW+newGameDisplayInitialY,
-                                 newWidth, Snake.SNAKE_BODY);
+                                 newWidth, true, this.currentMovement);
         this.width = newWidth;
         this.pieceList.add(piece);
-        this.currentMovement = initDirection;
         this.GAME_DISPLAY_FINAL_X = newGameDisplayFinalX;
         this.GAME_DISPLAY_FINAL_Y = newGameDisplayFinalY;
         this.GAME_DISPLAY_INITIAL_X = newGameDisplayInitialX;
@@ -77,9 +77,16 @@ public class Snake {
      * Method to make grow the Snake
      */
     public void grow() {
-        Piece clonedFirstPiece = this.pieceList.getFirst().clone();
-        this.moveSpecificPiece(clonedFirstPiece);
-        this.pieceList.addFirst(clonedFirstPiece);
+        Piece actualFirst = this.pieceList.getFirst();
+        actualFirst.unsetHead();
+        Piece futureFirst = actualFirst.clone();
+        this.moveSpecificPiece(futureFirst);
+        futureFirst.setHead();
+        futureFirst.setDirection(this.currentMovement);
+        this.pieceList.addFirst(futureFirst);
+//        Piece clonedFirstPiece = this.pieceList.getFirst().clone();
+//        this.moveSpecificPiece(clonedFirstPiece);
+//        this.pieceList.addFirst(clonedFirstPiece);
     }
 
     /**
