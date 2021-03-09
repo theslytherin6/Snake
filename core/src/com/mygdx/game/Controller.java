@@ -155,11 +155,11 @@ public class Controller {
      */
     private void startScreen() {
         this.draw(this.START_BACKGROUND, this.xOffset, this.yOffset, this.displayWidth, displayHeight);
+        this.BACKGROUND_SOUND.play();
+        this.BACKGROUND_SOUND.setVolume(10);
 
         if (Gdx.input.justTouched()) {
             this.controllerVG = gameStates.PLAYING;
-            this.BACKGROUND_SOUND.play();
-            this.BACKGROUND_SOUND.setVolume(10);
         }
     }
 

@@ -19,6 +19,12 @@ Los puestos de trabajo rotan cada semana y van por orden alfabético empezando p
 </ul>
 Lenguaje dentro del proyecto: Ingles.<br>
 
+## Reunión 06/03/2021 <br>
+
+Nos reunimos tras saber los comentarios del maestro y decidimos lo siguiente: <br>
+· Raúl hará el diagrama de actividad <br>
+· El resto seguiremos mejorando el proyecto <br>
+
 ## Reunión 28/02/2021
 
 Se corrigen errores de nivel linguistico, se ha acabado el UML y actualizado el diagrama de objetos.
