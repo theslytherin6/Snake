@@ -26,6 +26,8 @@ public class Controller {
     private static final String SOUND_GROW_PATH = "Sounds/grow.mp3";
     private static final String SOUND_BACKGROUND_PATH = "Sounds/background.mp3";
     private static final String SOUND_DIE_PATH = "Sounds/die.mp3";
+    private static final String SOUND_BACKGROUND_INIT = "Sounds/music-init.mp3";
+    private static final String SOUND_BACKGROUND_END = "Sounds/music-end.mp3";
     private static final Directions INIT_SNAKE_DIRECTION = Directions.RIGHT;
     private static final int FRAMES_TO_SNAKE_MOVES = 60;
     private static final int FRAMES_TO_SNAKE_GROWS = Controller.FRAMES_TO_SNAKE_MOVES * 4;
@@ -39,6 +41,8 @@ public class Controller {
     private final Sound GROW_SOUND = Gdx.audio.newSound(Gdx.files.internal(Controller.SOUND_GROW_PATH));
     private final Music BACKGROUND_SOUND = Gdx.audio.newMusic(Gdx.files.internal(Controller.SOUND_BACKGROUND_PATH));
     private final Sound DIE_SOUND = Gdx.audio.newSound(Gdx.files.internal(Controller.SOUND_DIE_PATH));
+    private final Music BACKGROUND_INIT_SOUND = Gdx.audio.newMusic(Gdx.files.internal(Controller.SOUND_BACKGROUND_INIT));
+    private final Music BACKGROUND_END_SOUND = Gdx.audio.newMusic(Gdx.files.internal(Controller.SOUND_BACKGROUND_END));
 
     private int displayWidth;
     private int displayHeight;
@@ -86,6 +90,8 @@ public class Controller {
         this.framesCounter = 0;
         this.controllerVG = gameStates.GAME_START;
         this.spriteBatch = spriteBatch;
+        this.BACKGROUND_END_SOUND.setLooping(true);
+        this.BACKGROUND_INIT_SOUND.setLooping(true);
     }
 
     /**
@@ -154,15 +160,21 @@ public class Controller {
      * Method to manage the Start Screen
      */
     private void startScreen() {
+        this.upStartMusic();
         this.draw(this.START_BACKGROUND, this.xOffset, this.yOffset, this.displayWidth, displayHeight);
 
         if (Gdx.input.justTouched()) {
+            this.BACKGROUND_INIT_SOUND.stop();
             this.controllerVG = gameStates.PLAYING;
             this.BACKGROUND_SOUND.play();
             this.BACKGROUND_SOUND.setVolume(10);
         }
     }
 
+    private void upStartMusic(){
+        if (!this.BACKGROUND_INIT_SOUND.isPlaying())
+            this.BACKGROUND_INIT_SOUND.play();
+    }
     /**
      *
      * @param texture2Draw  Texture which will be drawn
@@ -266,6 +278,7 @@ public class Controller {
      * Method to manage when the game finish
      */
     private void gameFinished() {
+        this.upEndMusic();
         this.draw(this.END_BACKGROUND, this.xOffset, this.yOffset, this.displayWidth, this.displayHeight);
 
         boolean screenTouched = Gdx.input.justTouched();
@@ -275,10 +288,17 @@ public class Controller {
         }
     }
 
+
+    private void upEndMusic(){
+        if (!this.BACKGROUND_END_SOUND.isPlaying())
+            this.BACKGROUND_END_SOUND.play();
+    }
+
     /**
      * Method to reset the Game when it finish
      */
     private void resetGame() {
+        this.BACKGROUND_END_SOUND.stop();
         this.framesCounter = 0;
         this.newSnake(this.xOffset, this.yOffset, this.displayWidth, this.displayHeight, this.snake.getCellWidth());
         this.controllerVG = gameStates.GAME_START;
@@ -300,5 +320,7 @@ public class Controller {
         this.MOVEMENT_SOUND.dispose();
         this.BACKGROUND_SOUND.dispose();
         this.DIE_SOUND.dispose();
+        this.BACKGROUND_END_SOUND.dispose();
+        this.BACKGROUND_INIT_SOUND.dispose();
     }
 }
