@@ -92,6 +92,7 @@ public class Controller {
         this.spriteBatch = spriteBatch;
         this.BACKGROUND_END_SOUND.setLooping(true);
         this.BACKGROUND_INIT_SOUND.setLooping(true);
+        this.BACKGROUND_SOUND.setLooping(true);
     }
 
     /**
